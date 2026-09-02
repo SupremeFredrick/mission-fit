@@ -1,7 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:health/health.dart';
+import 'package:http/http.dart' as http;
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'tabs/home_tab_logic.dart';
@@ -14,14 +20,14 @@ part 'tabs/settings_tab_logic.dart';
 part 'tabs/settings_tab_render.dart';
 
 const Color kMissionFitDominant = Color(0xFF000000);
-const Color kMissionFitSecondary = Color(0xFFBC96E6);
-const Color kMissionFitAccent = Color(0xFFFFD166);
-const Color kMissionFitLight = Color(0xFFD8B9F2);
-const Color kMissionFitSurface = Color(0xFF2B1238);
-const Color kMissionFitSurfaceStrong = Color(0xFF3A1E4B);
-const Color kMissionFitSurfaceSoft = Color(0xFF4B2A5C);
-const Color kMissionFitMuted = Color(0xFFD8CBE3);
-const Color kMissionFitBorder = Color(0x2EBC96E6);
+const Color kMissionFitSecondary = Color(0xFFA2A9AD);
+const Color kMissionFitAccent = Color(0xFFCE0E2D);
+const Color kMissionFitLight = Color(0xFFFFFFFF);
+const Color kMissionFitSurface = Color(0xFF323E48);
+const Color kMissionFitSurfaceStrong = Color(0xFF323E48);
+const Color kMissionFitSurfaceSoft = Color(0xFF323E48);
+const Color kMissionFitMuted = Color(0xFFA2A9AD);
+const Color kMissionFitBorder = Color(0x52A2A9AD);
 
 double convertToMetricValue(double value, String unit) {
   switch (unit.toLowerCase()) {
@@ -36,13 +42,72 @@ double convertToMetricValue(double value, String unit) {
   }
 }
 
+Future<FoodEntry?> fetchFoodEntryByBarcode(String barcode) async {
+  final productCode = barcode.replaceAll(RegExp(r'[^0-9]'), '');
+  if (productCode.isEmpty) return null;
+
+  final response = await http
+      .get(
+        Uri.parse(
+          'https://world.openfoodfacts.org/api/v0/product/$productCode.json',
+        ),
+      )
+      .timeout(const Duration(seconds: 8));
+  if (response.statusCode != 200) return null;
+
+  final payload = jsonDecode(response.body) as Map<String, dynamic>;
+  if (payload['status'] != 1) return null;
+  final product = payload['product'] as Map<String, dynamic>?;
+  return product == null ? null : foodEntryFromOpenFoodFactsProduct(product);
+}
+
+Future<List<FoodEntry>> searchFoodEntries(String query) async {
+  if (query.trim().isEmpty) return [];
+  final uri = Uri.https('world.openfoodfacts.org', '/cgi/search.pl', {
+    'search_terms': query.trim(),
+    'json': 'true',
+    'page_size': '8',
+    'fields': 'product_name,nutriments',
+  });
+  final response = await http.get(uri).timeout(const Duration(seconds: 8));
+  if (response.statusCode != 200) return [];
+
+  final payload = jsonDecode(response.body) as Map<String, dynamic>;
+  final products = payload['products'] as List<dynamic>? ?? const [];
+  return products
+      .whereType<Map<String, dynamic>>()
+      .map(foodEntryFromOpenFoodFactsProduct)
+      .whereType<FoodEntry>()
+      .toList();
+}
+
+FoodEntry? foodEntryFromOpenFoodFactsProduct(Map<String, dynamic> product) {
+  final nutriments = product['nutriments'] as Map<String, dynamic>?;
+  if (nutriments == null) return null;
+
+  double nutrientValue(String key) =>
+      (nutriments[key] as num?)?.toDouble() ?? 0;
+
+  return FoodEntry(
+    name: product['product_name']?.toString().trim().isNotEmpty == true
+        ? product['product_name'].toString().trim()
+        : 'Food item',
+    calories: nutrientValue('energy-kcal_100g'),
+    protein: nutrientValue('proteins_100g'),
+    carbs: nutrientValue('carbohydrates_100g'),
+    fat: nutrientValue('fat_100g'),
+  );
+}
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MissionFitApp());
 }
 
 class MissionFitApp extends StatelessWidget {
-  const MissionFitApp({super.key});
+  final bool skipOnboarding;
+
+  const MissionFitApp({super.key, this.skipOnboarding = false});
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +125,44 @@ class MissionFitApp extends StatelessWidget {
         fontFamily: 'Roboto',
         iconTheme: const IconThemeData(color: Colors.white),
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: kMissionFitDominant,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          surfaceTintColor: Colors.transparent,
+        ),
+        cardTheme: CardThemeData(
+          color: kMissionFitSurface,
+          elevation: 0,
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: kMissionFitBorder),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kMissionFitAccent,
+            foregroundColor: kMissionFitDominant,
+            elevation: 0,
+            minimumSize: const Size(44, 48),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: kMissionFitLight,
+            minimumSize: const Size(44, 48),
+            side: const BorderSide(color: kMissionFitSecondary),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
         navigationBarTheme: NavigationBarThemeData(
           iconTheme: WidgetStateProperty.resolveWith<IconThemeData?>(
             (states) => IconThemeData(
@@ -78,7 +181,330 @@ class MissionFitApp extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         ),
       ),
-      home: const MissionFitHome(),
+      home: skipOnboarding ? const MissionFitHome() : const AppLaunchGate(),
+    );
+  }
+}
+
+class AppLaunchGate extends StatefulWidget {
+  const AppLaunchGate({super.key});
+
+  @override
+  State<AppLaunchGate> createState() => _AppLaunchGateState();
+}
+
+class _AppLaunchGateState extends State<AppLaunchGate> {
+  SharedPreferences? _preferences;
+  bool? _hasCompletedOnboarding;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLaunchState();
+  }
+
+  Future<void> _loadLaunchState() async {
+    final preferences = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _preferences = preferences;
+      _hasCompletedOnboarding =
+          preferences.getBool('mission_fit_onboarding_complete') ?? false;
+    });
+  }
+
+  Future<void> _completeOnboarding(SetupProfile profile) async {
+    final preferences = _preferences!;
+    await preferences.setString('mission_fit_name', profile.name);
+    await preferences.setString('mission_fit_age', profile.age);
+    await preferences.setDouble('mission_fit_height_value', profile.height);
+    await preferences.setString('mission_fit_height_unit', profile.heightUnit);
+    await preferences.setDouble('mission_fit_weight_value', profile.weight);
+    await preferences.setString('mission_fit_weight_unit', profile.weightUnit);
+    await preferences.setString('mission_fit_sex', profile.sex);
+    await preferences.setString(
+      'mission_fit_activity_level',
+      profile.activityLevel,
+    );
+    await preferences.setStringList('mission_fit_quick_start', []);
+    await preferences.setString('mission_fit_planned_workouts', '');
+    await preferences.setString('mission_fit_food_entries', '[]');
+    await preferences.setStringList('mission_fit_food_log', []);
+    await preferences.setString('mission_fit_saved_meals', '[]');
+    await preferences.setString('mission_fit_exercises', '[]');
+    await preferences.setBool('mission_fit_onboarding_complete', true);
+    if (mounted) setState(() => _hasCompletedOnboarding = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_hasCompletedOnboarding == null) return const AppLoadingScreen();
+    if (_hasCompletedOnboarding == false) {
+      return ProfileSetupScreen(onComplete: _completeOnboarding);
+    }
+    return const MissionFitHome();
+  }
+}
+
+class AppLoadingScreen extends StatelessWidget {
+  const AppLoadingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator(color: kMissionFitAccent)),
+    );
+  }
+}
+
+class SetupProfile {
+  final String name;
+  final String age;
+  final double height;
+  final String heightUnit;
+  final double weight;
+  final String weightUnit;
+  final String sex;
+  final String activityLevel;
+
+  const SetupProfile({
+    required this.name,
+    required this.age,
+    required this.height,
+    required this.heightUnit,
+    required this.weight,
+    required this.weightUnit,
+    required this.sex,
+    required this.activityLevel,
+  });
+}
+
+class ProfileSetupScreen extends StatefulWidget {
+  final Future<void> Function(SetupProfile profile) onComplete;
+
+  const ProfileSetupScreen({super.key, required this.onComplete});
+
+  @override
+  State<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
+}
+
+class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _ageController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _weightController = TextEditingController();
+  String _heightUnit = 'cm';
+  String _weightUnit = 'kg';
+  String _sex = 'Male';
+  String _activityLevel = 'Moderate';
+  bool _isSaving = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _ageController.dispose();
+    _heightController.dispose();
+    _weightController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+    setState(() => _isSaving = true);
+    await widget.onComplete(
+      SetupProfile(
+        name: _nameController.text.trim(),
+        age: _ageController.text.trim(),
+        height: double.parse(_heightController.text),
+        heightUnit: _heightUnit,
+        weight: double.parse(_weightController.text),
+        weightUnit: _weightUnit,
+        sex: _sex,
+        activityLevel: _activityLevel,
+      ),
+    );
+    if (mounted) setState(() => _isSaving = false);
+  }
+
+  InputDecoration _fieldDecoration(String label) => InputDecoration(
+    labelText: label,
+    filled: true,
+    fillColor: kMissionFitDominant,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(color: kMissionFitSecondary),
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 520),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        'src/assets/mission_fit_logo.png',
+                        key: const ValueKey('mission-fit-setup-logo'),
+                        width: 96,
+                        height: 72,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+                    const Text(
+                      'Set up your profile',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Your information personalizes your daily targets.',
+                      style: TextStyle(color: kMissionFitMuted),
+                    ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: _fieldDecoration('Name'),
+                      validator: (value) =>
+                          value == null || value.trim().isEmpty
+                          ? 'Enter your name'
+                          : null,
+                    ),
+                    const SizedBox(height: 14),
+                    TextFormField(
+                      controller: _ageController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: _fieldDecoration('Age'),
+                      validator: (value) => (int.tryParse(value ?? '') ?? 0) > 0
+                          ? null
+                          : 'Enter your age',
+                    ),
+                    const SizedBox(height: 14),
+                    _measurementFields(
+                      controller: _heightController,
+                      label: 'Height',
+                      unit: _heightUnit,
+                      units: const ['cm', 'in'],
+                      onUnitChanged: (value) =>
+                          setState(() => _heightUnit = value),
+                    ),
+                    const SizedBox(height: 14),
+                    _measurementFields(
+                      controller: _weightController,
+                      label: 'Weight',
+                      unit: _weightUnit,
+                      units: const ['kg', 'lbs'],
+                      onUnitChanged: (value) =>
+                          setState(() => _weightUnit = value),
+                    ),
+                    const SizedBox(height: 14),
+                    DropdownButtonFormField<String>(
+                      initialValue: _sex,
+                      decoration: _fieldDecoration('Sex'),
+                      items: const ['Male', 'Female']
+                          .map(
+                            (value) => DropdownMenuItem(
+                              value: value,
+                              child: Text(value),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        if (value != null) setState(() => _sex = value);
+                      },
+                    ),
+                    const SizedBox(height: 14),
+                    DropdownButtonFormField<String>(
+                      initialValue: _activityLevel,
+                      decoration: _fieldDecoration('Activity level'),
+                      items:
+                          const [
+                                'Sedentary',
+                                'Light',
+                                'Moderate',
+                                'Active',
+                                'Extreme',
+                              ]
+                              .map(
+                                (value) => DropdownMenuItem(
+                                  value: value,
+                                  child: Text(value),
+                                ),
+                              )
+                              .toList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() => _activityLevel = value);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: _isSaving ? null : _submit,
+                      child: Text(_isSaving ? 'Saving' : 'Done'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _measurementFields({
+    required TextEditingController controller,
+    required String label,
+    required String unit,
+    required List<String> units,
+    required ValueChanged<String> onUnitChanged,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            controller: controller,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+            ],
+            decoration: _fieldDecoration(label),
+            validator: (value) =>
+                (double.tryParse(value ?? '') ?? 0) > 0 ? null : 'Enter $label',
+          ),
+        ),
+        const SizedBox(width: 12),
+        SizedBox(
+          width: 96,
+          child: DropdownButtonFormField<String>(
+            initialValue: unit,
+            isExpanded: true,
+            decoration: _fieldDecoration(''),
+            items: units
+                .map(
+                  (value) => DropdownMenuItem(value: value, child: Text(value)),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value != null) onUnitChanged(value);
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -91,18 +517,23 @@ class MissionFitHome extends StatefulWidget {
 }
 
 class MissionFitHomeState extends State<MissionFitHome> {
-  int _selectedIndex = 0;
-  late final SharedPreferences _prefs;
+  int _selectedTabIndex = 0;
+  late final SharedPreferences _preferences;
 
-  final List<String> _tabLabels = ['Home', 'Workouts', 'Food', 'Settings'];
-  static const List<IconData> _tabIcons = [
+  final List<String> _navigationLabels = [
+    'Home',
+    'Workouts',
+    'Food',
+    'Settings',
+  ];
+  static const List<IconData> _navigationIcons = [
     Icons.home_rounded,
     Icons.fitness_center_rounded,
     Icons.restaurant_rounded,
     Icons.settings_rounded,
   ];
 
-  String _name = 'Alex';
+  String _profileName = 'Alex';
   String _age = '27';
   double _heightValue = 180;
   String _heightUnit = 'cm';
@@ -110,11 +541,11 @@ class MissionFitHomeState extends State<MissionFitHome> {
   String _weightUnit = 'kg';
   String _sex = 'Male';
   String _activityLevel = 'Moderate';
-  String _instagram = '@missionfit';
-  String _x = '@missionfit';
-  String _strava = 'missionfit';
+  String _instagramHandle = '@missionfit';
+  String _xHandle = '@missionfit';
+  String _stravaHandle = 'missionfit';
   String _workoutName = 'Push Day';
-  List<String> _quickStart = ['Push', 'Pull', 'Legs', 'Run'];
+  List<String> _quickStartWorkoutNames = ['Push', 'Pull', 'Legs', 'Run'];
   String _selectedQuickStartWorkout = 'Push';
   final Map<String, List<WorkoutExercise>> _quickStartWorkouts = {
     'Push': [
@@ -239,6 +670,15 @@ class MissionFitHomeState extends State<MissionFitHome> {
     ),
   ];
   String _goal = 'Cut';
+  double _waterConsumed = 2.0;
+  String _dailyQuote =
+      'The impediment to action advances action. What stands in the way becomes the way.';
+  String _dailyQuoteAuthor = 'Marcus Aurelius';
+  int? _nativeStepCount;
+  double? _nativeCaloriesBurned;
+  bool _isLoadingHealthData = false;
+  bool get canReadNativeHealthData =>
+      !kIsWeb && (Platform.isAndroid || Platform.isIOS);
   final Map<String, String> _plannedWorkouts = {};
   final List<DateTime> _completedWorkoutDates = [
     DateTime.now().subtract(const Duration(days: 0)),
@@ -254,55 +694,71 @@ class MissionFitHomeState extends State<MissionFitHome> {
   }
 
   Future<void> _loadState() async {
-    _prefs = await SharedPreferences.getInstance();
+    _preferences = await SharedPreferences.getInstance();
     setState(() {
-      _name = _prefs.getString('mission_fit_name') ?? _name;
-      _age = _prefs.getString('mission_fit_age') ?? _age;
+      _profileName = _preferences.getString('mission_fit_name') ?? _profileName;
+      _age = _preferences.getString('mission_fit_age') ?? _age;
 
-      final savedHeightValue = _prefs.getDouble('mission_fit_height_value');
+      final savedHeightValue = _preferences.getDouble(
+        'mission_fit_height_value',
+      );
       if (savedHeightValue != null) {
         _heightValue = savedHeightValue;
       } else {
-        final heightText = _prefs.getString('mission_fit_height') ?? '180 cm';
+        final heightText =
+            _preferences.getString('mission_fit_height') ?? '180 cm';
         final parsed = _parseNumericValue(heightText);
         if (parsed > 0) {
           _heightValue = parsed;
         }
       }
       _heightUnit =
-          _prefs.getString('mission_fit_height_unit') ??
-          (_prefs.getString('mission_fit_height')?.contains('in') ?? false
+          _preferences.getString('mission_fit_height_unit') ??
+          (_preferences.getString('mission_fit_height')?.contains('in') ?? false
               ? 'in'
               : 'cm');
 
-      final savedWeightValue = _prefs.getDouble('mission_fit_weight_value');
+      final savedWeightValue = _preferences.getDouble(
+        'mission_fit_weight_value',
+      );
       if (savedWeightValue != null) {
         _weightValue = savedWeightValue;
       } else {
-        final weightText = _prefs.getString('mission_fit_weight') ?? '74 kg';
+        final weightText =
+            _preferences.getString('mission_fit_weight') ?? '74 kg';
         final parsed = _parseNumericValue(weightText);
         if (parsed > 0) {
           _weightValue = parsed;
         }
       }
       _weightUnit =
-          _prefs.getString('mission_fit_weight_unit') ??
-          (_prefs.getString('mission_fit_weight')?.contains('lbs') ?? false
+          _preferences.getString('mission_fit_weight_unit') ??
+          (_preferences.getString('mission_fit_weight')?.contains('lbs') ??
+                  false
               ? 'lbs'
               : 'kg');
 
-      _sex = _prefs.getString('mission_fit_sex') ?? _sex;
+      _sex = _preferences.getString('mission_fit_sex') ?? _sex;
       _activityLevel =
-          _prefs.getString('mission_fit_activity_level') ?? _activityLevel;
-      _instagram = _prefs.getString('mission_fit_instagram') ?? _instagram;
-      _x = _prefs.getString('mission_fit_x') ?? _x;
-      _strava = _prefs.getString('mission_fit_strava') ?? _strava;
-      _goal = _prefs.getString('mission_fit_goal') ?? _goal;
+          _preferences.getString('mission_fit_activity_level') ??
+          _activityLevel;
+      _instagramHandle =
+          _preferences.getString('mission_fit_instagram') ?? _instagramHandle;
+      _xHandle = _preferences.getString('mission_fit_x') ?? _xHandle;
+      _stravaHandle =
+          _preferences.getString('mission_fit_strava') ?? _stravaHandle;
+      _goal = _preferences.getString('mission_fit_goal') ?? _goal;
+      _waterConsumed =
+          _preferences.getDouble('mission_fit_water_consumed') ??
+          _waterConsumed;
       _workoutName =
-          _prefs.getString('mission_fit_workout_name') ?? _workoutName;
-      _quickStart =
-          _prefs.getStringList('mission_fit_quick_start') ?? _quickStart;
-      final encodedPlans = _prefs.getString('mission_fit_planned_workouts');
+          _preferences.getString('mission_fit_workout_name') ?? _workoutName;
+      _quickStartWorkoutNames =
+          _preferences.getStringList('mission_fit_quick_start') ??
+          _quickStartWorkoutNames;
+      final encodedPlans = _preferences.getString(
+        'mission_fit_planned_workouts',
+      );
       if (encodedPlans != null && encodedPlans.isNotEmpty) {
         try {
           final data = jsonDecode(encodedPlans) as Map<String, dynamic>;
@@ -314,7 +770,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
         }
       }
 
-      final encodedFood = _prefs.getString('mission_fit_food_entries');
+      final encodedFood = _preferences.getString('mission_fit_food_entries');
       if (encodedFood != null && encodedFood.isNotEmpty) {
         try {
           final data = jsonDecode(encodedFood) as List<dynamic>;
@@ -322,7 +778,8 @@ class MissionFitHomeState extends State<MissionFitHome> {
               .map((item) => FoodEntry.fromJson(item as Map<String, dynamic>))
               .toList();
         } catch (_) {
-          final legacy = _prefs.getStringList('mission_fit_food_log') ?? [];
+          final legacy =
+              _preferences.getStringList('mission_fit_food_log') ?? [];
           _foodEntries = legacy
               .map(
                 (item) => FoodEntry(
@@ -336,7 +793,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
               .toList();
         }
       } else {
-        final legacy = _prefs.getStringList('mission_fit_food_log') ?? [];
+        final legacy = _preferences.getStringList('mission_fit_food_log') ?? [];
         _foodEntries = legacy
             .map(
               (item) => FoodEntry(
@@ -350,7 +807,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
             .toList();
       }
 
-      final encodedMeals = _prefs.getString('mission_fit_saved_meals');
+      final encodedMeals = _preferences.getString('mission_fit_saved_meals');
       if (encodedMeals != null && encodedMeals.isNotEmpty) {
         try {
           final data = jsonDecode(encodedMeals) as List<dynamic>;
@@ -362,7 +819,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
         }
       }
 
-      final encoded = _prefs.getString('mission_fit_exercises');
+      final encoded = _preferences.getString('mission_fit_exercises');
       if (encoded != null && encoded.isNotEmpty) {
         try {
           final data = jsonDecode(encoded) as List<dynamic>;
@@ -374,48 +831,141 @@ class MissionFitHomeState extends State<MissionFitHome> {
         }
       }
     });
+    await _loadDailyQuote();
+  }
+
+  Future<void> _loadDailyQuote() async {
+    final todayKey = _dateKey(DateTime.now());
+    final cachedDate = _preferences.getString('mission_fit_quote_date');
+    final cachedQuote = _preferences.getString('mission_fit_daily_quote');
+    final cachedAuthor = _preferences.getString(
+      'mission_fit_daily_quote_author',
+    );
+    if (cachedDate == todayKey && cachedQuote != null && cachedAuthor != null) {
+      if (mounted) {
+        setState(() {
+          _dailyQuote = cachedQuote;
+          _dailyQuoteAuthor = cachedAuthor;
+        });
+      }
+      return;
+    }
+
+    try {
+      final response = await http
+          .get(Uri.parse('https://stoic.tekloon.net/stoic-quote'))
+          .timeout(const Duration(seconds: 8));
+      if (response.statusCode != 200) return;
+      final payload = jsonDecode(response.body) as Map<String, dynamic>;
+      final quoteData = payload['data'] as Map<String, dynamic>?;
+      final quote = quoteData?['quote']?.toString().trim();
+      final author = quoteData?['author']?.toString().trim();
+      if (quote == null || quote.isEmpty || author == null || author.isEmpty) {
+        return;
+      }
+      if (mounted) {
+        setState(() {
+          _dailyQuote = quote;
+          _dailyQuoteAuthor = author;
+        });
+      }
+      await _preferences.setString('mission_fit_quote_date', todayKey);
+      await _preferences.setString('mission_fit_daily_quote', quote);
+      await _preferences.setString('mission_fit_daily_quote_author', author);
+    } catch (_) {}
+  }
+
+  Future<bool> loadNativeActivityData() async {
+    if (!canReadNativeHealthData || _isLoadingHealthData) return false;
+    setState(() => _isLoadingHealthData = true);
+
+    try {
+      final health = Health();
+      final types = <HealthDataType>[
+        HealthDataType.STEPS,
+        HealthDataType.ACTIVE_ENERGY_BURNED,
+      ];
+      final permissions = <HealthDataAccess>[
+        HealthDataAccess.READ,
+        HealthDataAccess.READ,
+      ];
+      final granted = await health.requestAuthorization(
+        types,
+        permissions: permissions,
+      );
+      if (!granted) return false;
+
+      final now = DateTime.now();
+      final startOfDay = DateTime(now.year, now.month, now.day);
+      final points = await health.getHealthDataFromTypes(
+        types: types,
+        startTime: startOfDay,
+        endTime: now,
+      );
+      final steps = await health.getTotalStepsInInterval(startOfDay, now);
+      final activeCalories = points
+          .where((point) => point.type == HealthDataType.ACTIVE_ENERGY_BURNED)
+          .fold<double>(0, (sum, point) {
+            final value = point.value;
+            return sum + (value is NumericHealthValue ? value.numericValue : 0);
+          });
+      if (!mounted) return false;
+      setState(() {
+        _nativeStepCount = steps;
+        _nativeCaloriesBurned = activeCalories;
+      });
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      if (mounted) setState(() => _isLoadingHealthData = false);
+    }
   }
 
   Future<void> _saveSettings() async {
-    await _prefs.setString('mission_fit_name', _name);
-    await _prefs.setString('mission_fit_age', _age);
-    await _prefs.setDouble('mission_fit_height_value', _heightValue);
-    await _prefs.setString('mission_fit_height_unit', _heightUnit);
-    await _prefs.setDouble('mission_fit_weight_value', _weightValue);
-    await _prefs.setString('mission_fit_weight_unit', _weightUnit);
-    await _prefs.setString(
+    await _preferences.setString('mission_fit_name', _profileName);
+    await _preferences.setString('mission_fit_age', _age);
+    await _preferences.setDouble('mission_fit_height_value', _heightValue);
+    await _preferences.setString('mission_fit_height_unit', _heightUnit);
+    await _preferences.setDouble('mission_fit_weight_value', _weightValue);
+    await _preferences.setString('mission_fit_weight_unit', _weightUnit);
+    await _preferences.setString(
       'mission_fit_height',
       '${_heightValue.toStringAsFixed(_heightValue.truncateToDouble() == _heightValue ? 0 : 1)} $_heightUnit',
     );
-    await _prefs.setString(
+    await _preferences.setString(
       'mission_fit_weight',
       '${_weightValue.toStringAsFixed(_weightValue.truncateToDouble() == _weightValue ? 0 : 1)} $_weightUnit',
     );
-    await _prefs.setString('mission_fit_sex', _sex);
-    await _prefs.setString('mission_fit_activity_level', _activityLevel);
-    await _prefs.setString('mission_fit_instagram', _instagram);
-    await _prefs.setString('mission_fit_x', _x);
-    await _prefs.setString('mission_fit_strava', _strava);
-    await _prefs.setString('mission_fit_goal', _goal);
-    await _prefs.setString('mission_fit_workout_name', _workoutName);
-    await _prefs.setStringList('mission_fit_quick_start', _quickStart);
-    await _prefs.setString(
+    await _preferences.setString('mission_fit_sex', _sex);
+    await _preferences.setString('mission_fit_activity_level', _activityLevel);
+    await _preferences.setString('mission_fit_instagram', _instagramHandle);
+    await _preferences.setString('mission_fit_x', _xHandle);
+    await _preferences.setString('mission_fit_strava', _stravaHandle);
+    await _preferences.setString('mission_fit_goal', _goal);
+    await _preferences.setDouble('mission_fit_water_consumed', _waterConsumed);
+    await _preferences.setString('mission_fit_workout_name', _workoutName);
+    await _preferences.setStringList(
+      'mission_fit_quick_start',
+      _quickStartWorkoutNames,
+    );
+    await _preferences.setString(
       'mission_fit_planned_workouts',
       jsonEncode(_plannedWorkouts),
     );
-    await _prefs.setString(
+    await _preferences.setString(
       'mission_fit_food_entries',
       jsonEncode(_foodEntries.map((entry) => entry.toJson()).toList()),
     );
-    await _prefs.setStringList(
+    await _preferences.setStringList(
       'mission_fit_food_log',
       _foodEntries.map((entry) => entry.name).toList(),
     );
-    await _prefs.setString(
+    await _preferences.setString(
       'mission_fit_saved_meals',
       jsonEncode(_savedMeals.map((meal) => meal.toJson()).toList()),
     );
-    await _prefs.setString(
+    await _preferences.setString(
       'mission_fit_exercises',
       jsonEncode(_exercises.map((exercise) => exercise.toJson()).toList()),
     );
@@ -424,8 +974,11 @@ class MissionFitHomeState extends State<MissionFitHome> {
   String _dateKey(DateTime date) =>
       '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 
+  String? plannedWorkoutForDate(DateTime date) =>
+      _plannedWorkouts[_dateKey(date)];
+
   String workoutForDate(DateTime date) =>
-      _plannedWorkouts[_dateKey(date)] ?? _workoutName;
+      plannedWorkoutForDate(date) ?? _workoutName;
 
   List<WorkoutExercise> exercisesForWorkout(String workoutName) =>
       _quickStartWorkouts[workoutName] ?? _exercises;
@@ -437,6 +990,55 @@ class MissionFitHomeState extends State<MissionFitHome> {
     _saveSettings();
   }
 
+  void adjustWaterConsumed(double change) {
+    setState(() {
+      _waterConsumed = (_waterConsumed + change).clamp(0.0, 10.0);
+    });
+    _saveSettings();
+  }
+
+  void removeQuickStartWorkout(String workoutName) {
+    setState(() {
+      _quickStartWorkoutNames.remove(workoutName);
+      _quickStartWorkouts.remove(workoutName);
+      _plannedWorkouts.removeWhere(
+        (_, plannedWorkout) => plannedWorkout == workoutName,
+      );
+      if (_selectedQuickStartWorkout == workoutName) {
+        _selectedQuickStartWorkout = _quickStartWorkoutNames.isEmpty
+            ? ''
+            : _quickStartWorkoutNames.first;
+      }
+      if (_workoutName == workoutName) {
+        _workoutName = _quickStartWorkoutNames.isEmpty
+            ? 'New workout'
+            : _quickStartWorkoutNames.first;
+      }
+    });
+    _saveSettings();
+  }
+
+  InputDecoration _quickStartFieldDecoration({String? labelText}) {
+    final baseBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(color: kMissionFitSecondary, width: 1.5),
+    );
+
+    return InputDecoration(
+      labelText: labelText,
+      isDense: true,
+      filled: true,
+      fillColor: kMissionFitDominant,
+      contentPadding: const EdgeInsets.fromLTRB(12, 16, 12, 10),
+      border: baseBorder,
+      enabledBorder: baseBorder,
+      focusedBorder: baseBorder.copyWith(
+        borderSide: const BorderSide(color: kMissionFitAccent, width: 2),
+      ),
+      labelStyle: const TextStyle(color: kMissionFitMuted),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screens = [
@@ -446,40 +1048,76 @@ class MissionFitHomeState extends State<MissionFitHome> {
       SettingsTabView(parent: this),
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Semantics(
-          label: 'Mission Fit',
-          child: SizedBox(
-            width: 56,
-            height: 48,
-            child: Image.asset(
-              'src/assets/mission_fit_logo.png',
-              fit: BoxFit.contain,
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final useDesktopNavigation = constraints.maxWidth >= 840;
+        final activeScreen = Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1040),
+            child: screens[_selectedTabIndex],
           ),
-        ),
-        centerTitle: true,
-        backgroundColor: kMissionFitDominant,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: screens[_selectedIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: (index) =>
-            setState(() => _selectedIndex = index),
-        backgroundColor: kMissionFitSurface,
-        indicatorColor: kMissionFitAccent,
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        destinations: List.generate(4, (index) {
-          return NavigationDestination(
-            icon: Icon(_tabIcons[index]),
-            label: _tabLabels[index],
-          );
-        }),
-      ),
+        );
+
+        return Scaffold(
+          appBar: AppBar(
+            titleSpacing: 0,
+            title: Semantics(
+              label: 'Mission Fit',
+              child: SizedBox(
+                width: 56,
+                height: 48,
+                child: Image.asset(
+                  'src/assets/mission_fit_logo.png',
+                  key: const ValueKey('mission-fit-header-logo'),
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            centerTitle: true,
+          ),
+          body: useDesktopNavigation
+              ? Row(
+                  children: [
+                    NavigationRail(
+                      selectedIndex: _selectedTabIndex,
+                      onDestinationSelected: (index) =>
+                          setState(() => _selectedTabIndex = index),
+                      backgroundColor: kMissionFitSurface,
+                      indicatorColor: kMissionFitAccent,
+                      labelType: NavigationRailLabelType.all,
+                      destinations: List.generate(4, (index) {
+                        return NavigationRailDestination(
+                          icon: Icon(_navigationIcons[index]),
+                          selectedIcon: Icon(_navigationIcons[index]),
+                          label: Text(_navigationLabels[index]),
+                        );
+                      }),
+                    ),
+                    const VerticalDivider(width: 1),
+                    Expanded(child: activeScreen),
+                  ],
+                )
+              : activeScreen,
+          bottomNavigationBar: useDesktopNavigation
+              ? null
+              : NavigationBar(
+                  selectedIndex: _selectedTabIndex,
+                  onDestinationSelected: (index) =>
+                      setState(() => _selectedTabIndex = index),
+                  backgroundColor: kMissionFitSurface,
+                  indicatorColor: kMissionFitAccent,
+                  labelBehavior:
+                      NavigationDestinationLabelBehavior.onlyShowSelected,
+                  destinations: List.generate(4, (index) {
+                    return NavigationDestination(
+                      icon: Icon(_navigationIcons[index]),
+                      label: _navigationLabels[index],
+                    );
+                  }),
+                ),
+        );
+      },
     );
   }
 
@@ -514,18 +1152,12 @@ class MissionFitHomeState extends State<MissionFitHome> {
                       ),
                       const SizedBox(height: 8),
                       DropdownButtonFormField<String>(
-                        initialValue: _quickStart.contains(selectedWorkout)
+                        initialValue:
+                            _quickStartWorkoutNames.contains(selectedWorkout)
                             ? selectedWorkout
-                            : _quickStart.first,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: kMissionFitSurfaceStrong,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        items: _quickStart
+                            : _quickStartWorkoutNames.first,
+                        decoration: _quickStartFieldDecoration(),
+                        items: _quickStartWorkoutNames
                             .map(
                               (workout) => DropdownMenuItem(
                                 value: workout,
@@ -571,24 +1203,10 @@ class MissionFitHomeState extends State<MissionFitHome> {
                                       Expanded(
                                         child: TextFormField(
                                           initialValue: workoutExercise.name,
-                                          decoration: const InputDecoration(
-                                            labelText: 'Exercise name',
-                                            isDense: true,
-                                            filled: true,
-                                            fillColor: Colors.transparent,
-                                            contentPadding: EdgeInsets.fromLTRB(
-                                              12,
-                                              16,
-                                              12,
-                                              10,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
+                                          decoration:
+                                              _quickStartFieldDecoration(
+                                                labelText: 'Exercise name',
                                               ),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                          ),
                                           onChanged: (value) {
                                             setDialogState(() {
                                               final updated =
@@ -621,7 +1239,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
                                           setState(() {});
                                         },
                                         icon: const Icon(Icons.close_rounded),
-                                        color: Colors.redAccent,
+                                        color: kMissionFitAccent,
                                       ),
                                     ],
                                   ),
@@ -640,24 +1258,10 @@ class MissionFitHomeState extends State<MissionFitHome> {
                                               RegExp(r'[0-9.]'),
                                             ),
                                           ],
-                                          decoration: const InputDecoration(
-                                            labelText: 'Weight',
-                                            isDense: true,
-                                            filled: true,
-                                            fillColor: Colors.transparent,
-                                            contentPadding: EdgeInsets.fromLTRB(
-                                              12,
-                                              16,
-                                              12,
-                                              10,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
+                                          decoration:
+                                              _quickStartFieldDecoration(
+                                                labelText: 'Weight',
                                               ),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                          ),
                                           onChanged: (value) {
                                             final updatedSets = workoutExercise
                                                 .setEntries
@@ -697,24 +1301,10 @@ class MissionFitHomeState extends State<MissionFitHome> {
                                             FilteringTextInputFormatter
                                                 .digitsOnly,
                                           ],
-                                          decoration: const InputDecoration(
-                                            labelText: 'Sets',
-                                            isDense: true,
-                                            filled: true,
-                                            fillColor: Colors.transparent,
-                                            contentPadding: EdgeInsets.fromLTRB(
-                                              12,
-                                              16,
-                                              12,
-                                              10,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
+                                          decoration:
+                                              _quickStartFieldDecoration(
+                                                labelText: 'Sets',
                                               ),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                          ),
                                           onChanged: (value) {
                                             final requestedCount =
                                                 int.tryParse(value) ?? setCount;
@@ -881,6 +1471,37 @@ class MissionFitHomeState extends State<MissionFitHome> {
         return tdee;
     }
   }
+
+  double calculateWaterGoal() {
+    final weightKg = _convertToMetricValue(_weightValue, _weightUnit);
+    final heightCm = _convertToMetricValue(_heightValue, _heightUnit);
+    final ageYears = _parseNumericValue(_age);
+    final activityAdjustment = switch (_activityLevel.toLowerCase()) {
+      'sedentary' => 0.0,
+      'light' => 0.2,
+      'moderate' => 0.4,
+      'active' => 0.6,
+      'extreme' => 0.8,
+      _ => 0.4,
+    };
+    final sexAdjustment =
+        _sex.toLowerCase() == 'female' || _sex.toLowerCase() == 'woman'
+        ? 0.0
+        : 0.2;
+    final heightAdjustment = (heightCm - 170) * 0.002;
+    final ageAdjustment = ageYears >= 55
+        ? -0.2
+        : ageYears >= 35
+        ? -0.1
+        : 0.0;
+
+    return (weightKg * 0.033 +
+            activityAdjustment +
+            sexAdjustment +
+            heightAdjustment +
+            ageAdjustment)
+        .clamp(1.5, 5.0);
+  }
 }
 
 class WorkoutDetailScreen extends StatefulWidget {
@@ -901,11 +1522,102 @@ class WorkoutDetailScreen extends StatefulWidget {
 
 class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   late List<WorkoutExercise> _exercises;
+  final Stopwatch _runStopwatch = Stopwatch();
+  Timer? _runTimer;
 
   @override
   void initState() {
     super.initState();
     _exercises = List<WorkoutExercise>.from(widget.exercises);
+  }
+
+  @override
+  void dispose() {
+    _runTimer?.cancel();
+    super.dispose();
+  }
+
+  void _toggleRunTimer() {
+    if (_runStopwatch.isRunning) {
+      _runStopwatch.stop();
+      _runTimer?.cancel();
+    } else {
+      _runStopwatch.start();
+      _runTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+        if (mounted) setState(() {});
+      });
+    }
+    setState(() {});
+  }
+
+  void _resetRunTimer() {
+    _runStopwatch
+      ..stop()
+      ..reset();
+    _runTimer?.cancel();
+    setState(() {});
+  }
+
+  String get _runTimeLabel {
+    final elapsed = _runStopwatch.elapsed;
+    final hours = elapsed.inHours.toString().padLeft(2, '0');
+    final minutes = elapsed.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = elapsed.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$hours:$minutes:$seconds';
+  }
+
+  Widget _buildRunTimer() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: kMissionFitSurfaceStrong,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Column(
+        children: [
+          const Text(
+            'Run timer',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _runTimeLabel,
+            style: const TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.w800,
+              fontFeatures: [FontFeature.tabularFigures()],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: _toggleRunTimer,
+                  icon: Icon(
+                    _runStopwatch.isRunning
+                        ? Icons.pause_rounded
+                        : Icons.play_arrow_rounded,
+                  ),
+                  label: Text(
+                    _runStopwatch.isRunning ? 'Pause timer' : 'Start timer',
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              IconButton(
+                onPressed: _runStopwatch.elapsed == Duration.zero
+                    ? null
+                    : _resetRunTimer,
+                icon: const Icon(Icons.restart_alt_rounded),
+                tooltip: 'Reset timer',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -920,6 +1632,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            if (widget.workoutName.toLowerCase() == 'run') ...[
+              _buildRunTimer(),
+              const SizedBox(height: 16),
+            ],
             Expanded(
               child: ListView.builder(
                 itemCount: _exercises.length,
@@ -1578,6 +2294,7 @@ class _MetricCard extends StatelessWidget {
   final String suffix;
   final double progress;
   final Color progressColor;
+  final Widget? valueControls;
 
   const _MetricCard({
     required this.title,
@@ -1585,6 +2302,7 @@ class _MetricCard extends StatelessWidget {
     required this.suffix,
     required this.progress,
     required this.progressColor,
+    this.valueControls,
   });
 
   @override
@@ -1611,6 +2329,14 @@ class _MetricCard extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: const BoxDecoration(
+                        color: kMissionFitDominant,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                     SizedBox(
                       width: 52,
                       height: 52,
@@ -1638,11 +2364,17 @@ class _MetricCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      value,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          value,
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -1659,6 +2391,10 @@ class _MetricCard extends StatelessWidget {
                   ],
                 ),
               ),
+              if (valueControls != null) ...[
+                const SizedBox(width: 6),
+                valueControls!,
+              ],
             ],
           ),
         ],
@@ -1803,6 +2539,13 @@ class _FoodEntrySheetState extends State<_FoodEntrySheet> {
   late final TextEditingController _proteinController;
   late final TextEditingController _carbsController;
   late final TextEditingController _fatController;
+  final TextEditingController _foodSearchController = TextEditingController();
+  final TextEditingController _barcodeController = TextEditingController();
+  bool _isLookingUpBarcode = false;
+  String? _barcodeLookupMessage;
+  List<FoodEntry> _foodSearchResults = [];
+  bool _isSearchingFood = false;
+  String? _foodSearchMessage;
   final List<FoodEntry> _mealItems = [];
   late final TextEditingController _mealNameController;
 
@@ -1850,6 +2593,8 @@ class _FoodEntrySheetState extends State<_FoodEntrySheet> {
     _proteinController.dispose();
     _carbsController.dispose();
     _fatController.dispose();
+    _foodSearchController.dispose();
+    _barcodeController.dispose();
     _mealNameController.dispose();
     super.dispose();
   }
@@ -1864,6 +2609,77 @@ class _FoodEntrySheetState extends State<_FoodEntrySheet> {
       carbs: double.tryParse(_carbsController.text) ?? 0,
       fat: double.tryParse(_fatController.text) ?? 0,
     );
+  }
+
+  Future<void> _lookupBarcode() async {
+    final barcode = _barcodeController.text;
+    if (barcode.trim().isEmpty) {
+      setState(() => _barcodeLookupMessage = 'Enter a barcode first');
+      return;
+    }
+    setState(() {
+      _isLookingUpBarcode = true;
+      _barcodeLookupMessage = null;
+    });
+    try {
+      final entry = await fetchFoodEntryByBarcode(barcode);
+      if (!mounted) return;
+      if (entry == null) {
+        setState(() => _barcodeLookupMessage = 'Product not found');
+        return;
+      }
+      _applyFoodEntry(entry);
+      setState(() => _barcodeLookupMessage = 'Product loaded per 100 g');
+    } catch (_) {
+      if (mounted) {
+        setState(() => _barcodeLookupMessage = 'Unable to look up product');
+      }
+    } finally {
+      if (mounted) setState(() => _isLookingUpBarcode = false);
+    }
+  }
+
+  Future<void> _handleBarcodeDetection(BarcodeCapture capture) async {
+    if (_isLookingUpBarcode || capture.barcodes.isEmpty) return;
+    final barcode = capture.barcodes.first.rawValue;
+    if (barcode == null || barcode.isEmpty) return;
+    _barcodeController.text = barcode;
+    await _lookupBarcode();
+  }
+
+  Future<void> _searchFood() async {
+    final query = _foodSearchController.text;
+    if (query.trim().isEmpty) {
+      setState(() => _foodSearchMessage = 'Enter a food name first');
+      return;
+    }
+    setState(() {
+      _isSearchingFood = true;
+      _foodSearchMessage = null;
+      _foodSearchResults = [];
+    });
+    try {
+      final results = await searchFoodEntries(query);
+      if (!mounted) return;
+      setState(() {
+        _foodSearchResults = results;
+        _foodSearchMessage = results.isEmpty ? 'No matching foods found' : null;
+      });
+    } catch (_) {
+      if (mounted) {
+        setState(() => _foodSearchMessage = 'Unable to search foods');
+      }
+    } finally {
+      if (mounted) setState(() => _isSearchingFood = false);
+    }
+  }
+
+  void _applyFoodEntry(FoodEntry entry) {
+    _nameController.text = entry.name;
+    _caloriesController.text = entry.calories.toStringAsFixed(0);
+    _proteinController.text = entry.protein.toStringAsFixed(1);
+    _carbsController.text = entry.carbs.toStringAsFixed(1);
+    _fatController.text = entry.fat.toStringAsFixed(1);
   }
 
   double _mealCalories() =>
@@ -1969,11 +2785,65 @@ class _FoodEntrySheetState extends State<_FoodEntrySheet> {
                           const Text('Search food / nutrition details'),
                           const SizedBox(height: 12),
                           TextField(
+                            controller: _foodSearchController,
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: (_) => _searchFood(),
                             decoration: const InputDecoration(
                               labelText: 'Search food item',
                               prefixIcon: Icon(Icons.search_rounded),
                             ),
                           ),
+                          const SizedBox(height: 10),
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                              onPressed: _isSearchingFood ? null : _searchFood,
+                              icon: _isSearchingFood
+                                  ? const SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Icon(Icons.search_rounded),
+                              label: const Text('Search Open Food Facts'),
+                            ),
+                          ),
+                          if (_foodSearchMessage != null) ...[
+                            const SizedBox(height: 8),
+                            Text(
+                              _foodSearchMessage!,
+                              style: const TextStyle(color: kMissionFitMuted),
+                            ),
+                          ],
+                          if (_foodSearchResults.isNotEmpty) ...[
+                            const SizedBox(height: 8),
+                            SizedBox(
+                              height: 104,
+                              child: ListView.builder(
+                                itemCount: _foodSearchResults.length,
+                                itemBuilder: (context, index) {
+                                  final result = _foodSearchResults[index];
+                                  return ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Text(result.name),
+                                    subtitle: Text(
+                                      '${result.calories.round()} kcal per 100 g',
+                                    ),
+                                    onTap: () {
+                                      _applyFoodEntry(result);
+                                      setState(() {
+                                        _foodSearchResults = [];
+                                        _foodSearchMessage =
+                                            'Product loaded per 100 g';
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                           const SizedBox(height: 16),
                           TextField(
                             controller: _nameController,
@@ -2075,28 +2945,88 @@ class _FoodEntrySheetState extends State<_FoodEntrySheet> {
                             'Scan a barcode to look up nutritional values online.',
                           ),
                           const SizedBox(height: 16),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: SizedBox(
+                              height: 190,
+                              width: double.infinity,
+                              child: MobileScanner(
+                                onDetect: _handleBarcodeDetection,
+                                placeholderBuilder: (context) =>
+                                    const ColoredBox(
+                                      color: kMissionFitSurfaceStrong,
+                                      child: Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    ),
+                                errorBuilder: (context, error) =>
+                                    const ColoredBox(
+                                      color: kMissionFitSurfaceStrong,
+                                      child: Center(
+                                        child: Text(
+                                          'Camera access is unavailable',
+                                        ),
+                                      ),
+                                    ),
+                                overlayBuilder: (context, constraints) =>
+                                    Center(
+                                      child: Container(
+                                        width: constraints.maxWidth * 0.78,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: kMissionFitAccent,
+                                            width: 2,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
                           TextField(
+                            controller: _barcodeController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
                             decoration: const InputDecoration(
                               labelText: 'Barcode / product code',
                               prefixIcon: Icon(Icons.qr_code_scanner_rounded),
                             ),
                           ),
                           const SizedBox(height: 16),
+                          if (_barcodeLookupMessage != null) ...[
+                            Text(
+                              _barcodeLookupMessage!,
+                              style: const TextStyle(color: kMissionFitMuted),
+                            ),
+                            const SizedBox(height: 12),
+                          ],
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
-                              onPressed: () {
-                                final scanned = FoodEntry(
-                                  name: 'Scanned Food',
-                                  calories: 310,
-                                  protein: 18,
-                                  carbs: 35,
-                                  fat: 9,
-                                );
-                                _addFoodEntryToLog(scanned);
-                              },
-                              icon: const Icon(Icons.camera_alt_rounded),
-                              label: const Text('Add To Food Log'),
+                              onPressed: _isLookingUpBarcode
+                                  ? null
+                                  : _lookupBarcode,
+                              icon: _isLookingUpBarcode
+                                  ? const SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Icon(Icons.search_rounded),
+                              label: Text(
+                                _isLookingUpBarcode
+                                    ? 'Looking up product'
+                                    : 'Look Up Product',
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: kMissionFitAccent,
                                 foregroundColor: kMissionFitDominant,
@@ -2561,65 +3491,187 @@ class _BodyMapPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final borderPaint = Paint()
-      ..color = Colors.white24
+    canvas.save();
+    canvas.scale(size.width / 300, size.height / 280);
+
+    final outlinePaint = Paint()
+      ..color = kMissionFitSecondary
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+      ..strokeWidth = 1.5;
     final activePaint = Paint()
       ..color = kMissionFitAccent
       ..style = PaintingStyle.fill;
-    final mutedPaint = Paint()
-      ..color = kMissionFitSurfaceSoft
+    final bodyPaint = Paint()
+      ..color = kMissionFitDominant
       ..style = PaintingStyle.fill;
-
-    final headRect = Rect.fromCenter(
-      center: Offset(size.width / 2, 30),
-      width: 48,
-      height: 48,
-    );
-    final torsoRect = Rect.fromCenter(
-      center: Offset(size.width / 2, 120),
-      width: 72,
-      height: 120,
-    );
-    final leftArmRect = Rect.fromLTWH(28, 100, 24, 110);
-    final rightArmRect = Rect.fromLTWH(size.width - 52, 100, 24, 110);
-    final leftLegRect = Rect.fromLTWH(76, 210, 30, 90);
-    final rightLegRect = Rect.fromLTWH(size.width - 106, 210, 30, 90);
-
-    canvas.drawOval(
-      headRect,
-      highlightedParts['Shoulders'] == true ? activePaint : mutedPaint,
-    );
-    canvas.drawRect(
-      torsoRect,
-      highlightedParts['Chest'] == true || highlightedParts['Back'] == true
-          ? activePaint
-          : mutedPaint,
-    );
-    canvas.drawRect(
-      leftArmRect,
-      highlightedParts['Shoulders'] == true ? activePaint : mutedPaint,
-    );
-    canvas.drawRect(
-      rightArmRect,
-      highlightedParts['Shoulders'] == true ? activePaint : mutedPaint,
-    );
-    canvas.drawRect(
-      leftLegRect,
-      highlightedParts['Legs'] == true ? activePaint : mutedPaint,
-    );
-    canvas.drawRect(
-      rightLegRect,
-      highlightedParts['Legs'] == true ? activePaint : mutedPaint,
+    final labelStyle = TextStyle(
+      color: kMissionFitMuted,
+      fontSize: 11,
+      fontWeight: FontWeight.w700,
     );
 
-    canvas.drawOval(headRect, borderPaint);
-    canvas.drawRect(torsoRect, borderPaint);
-    canvas.drawRect(leftArmRect, borderPaint);
-    canvas.drawRect(rightArmRect, borderPaint);
-    canvas.drawRect(leftLegRect, borderPaint);
-    canvas.drawRect(rightLegRect, borderPaint);
+    void drawPath(Path path, {bool active = false}) {
+      canvas.drawPath(path, active ? activePaint : bodyPaint);
+      canvas.drawPath(path, outlinePaint);
+    }
+
+    Path head(double centerX) => Path()
+      ..addOval(
+        Rect.fromCenter(center: Offset(centerX, 38), width: 38, height: 46),
+      );
+    Path torso(double centerX) => Path()
+      ..moveTo(centerX - 28, 65)
+      ..quadraticBezierTo(centerX - 43, 86, centerX - 35, 129)
+      ..quadraticBezierTo(centerX - 29, 153, centerX - 22, 166)
+      ..lineTo(centerX - 17, 184)
+      ..lineTo(centerX + 17, 184)
+      ..lineTo(centerX + 22, 166)
+      ..quadraticBezierTo(centerX + 29, 153, centerX + 35, 129)
+      ..quadraticBezierTo(centerX + 43, 86, centerX + 28, 65)
+      ..close();
+    Path arm(double centerX, bool left) {
+      final direction = left ? -1.0 : 1.0;
+      return Path()
+        ..moveTo(centerX + direction * 28, 70)
+        ..quadraticBezierTo(
+          centerX + direction * 47,
+          80,
+          centerX + direction * 43,
+          109,
+        )
+        ..lineTo(centerX + direction * 38, 156)
+        ..quadraticBezierTo(
+          centerX + direction * 36,
+          171,
+          centerX + direction * 27,
+          169,
+        )
+        ..quadraticBezierTo(
+          centerX + direction * 22,
+          165,
+          centerX + direction * 25,
+          151,
+        )
+        ..lineTo(centerX + direction * 30, 107)
+        ..quadraticBezierTo(
+          centerX + direction * 27,
+          86,
+          centerX + direction * 19,
+          76,
+        )
+        ..close();
+    }
+
+    Path leg(double centerX, bool left) {
+      final direction = left ? -1.0 : 1.0;
+      return Path()
+        ..moveTo(centerX + direction * 16, 183)
+        ..quadraticBezierTo(
+          centerX + direction * 30,
+          205,
+          centerX + direction * 25,
+          235,
+        )
+        ..lineTo(centerX + direction * 23, 270)
+        ..lineTo(centerX + direction * 4, 270)
+        ..lineTo(centerX + direction * 3, 232)
+        ..quadraticBezierTo(
+          centerX + direction * 4,
+          204,
+          centerX + direction * 1,
+          184,
+        )
+        ..close();
+    }
+
+    void drawFigure(double centerX, {required bool isBack}) {
+      drawPath(head(centerX));
+      drawPath(torso(centerX));
+      drawPath(arm(centerX, true));
+      drawPath(arm(centerX, false));
+      drawPath(leg(centerX, true));
+      drawPath(leg(centerX, false));
+
+      final shoulders = Path()
+        ..addOval(
+          Rect.fromCenter(
+            center: Offset(centerX - 25, 74),
+            width: 22,
+            height: 18,
+          ),
+        )
+        ..addOval(
+          Rect.fromCenter(
+            center: Offset(centerX + 25, 74),
+            width: 22,
+            height: 18,
+          ),
+        );
+      drawPath(shoulders, active: highlightedParts['Shoulders'] == true);
+
+      final upperBody = Path();
+      if (isBack) {
+        upperBody
+          ..moveTo(centerX - 26, 84)
+          ..quadraticBezierTo(centerX, 100, centerX + 26, 84)
+          ..lineTo(centerX + 22, 130)
+          ..quadraticBezierTo(centerX, 147, centerX - 22, 130)
+          ..close();
+        drawPath(upperBody, active: highlightedParts['Back'] == true);
+      } else {
+        upperBody
+          ..moveTo(centerX - 23, 87)
+          ..quadraticBezierTo(centerX - 7, 81, centerX, 95)
+          ..quadraticBezierTo(centerX + 7, 81, centerX + 23, 87)
+          ..lineTo(centerX + 20, 119)
+          ..quadraticBezierTo(centerX, 126, centerX - 20, 119)
+          ..close();
+        drawPath(upperBody, active: highlightedParts['Chest'] == true);
+      }
+
+      final core = Path()
+        ..addRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(
+              center: Offset(centerX, 145),
+              width: 24,
+              height: 42,
+            ),
+            const Radius.circular(8),
+          ),
+        );
+      drawPath(core, active: highlightedParts['Core'] == true);
+
+      final legs = Path()
+        ..addRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromLTWH(centerX - 24, 190, 18, 48),
+            const Radius.circular(7),
+          ),
+        )
+        ..addRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromLTWH(centerX + 6, 190, 18, 48),
+            const Radius.circular(7),
+          ),
+        );
+      drawPath(legs, active: highlightedParts['Legs'] == true);
+    }
+
+    drawFigure(85, isBack: false);
+    drawFigure(215, isBack: true);
+
+    void drawLabel(String text, double centerX) {
+      final painter = TextPainter(
+        text: TextSpan(text: text, style: labelStyle),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      painter.paint(canvas, Offset(centerX - painter.width / 2, 2));
+    }
+
+    drawLabel('FRONT', 85);
+    drawLabel('BACK', 215);
+    canvas.restore();
   }
 
   @override

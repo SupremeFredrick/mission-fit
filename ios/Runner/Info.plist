@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Mission Fit uses the camera to scan food barcodes.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Mission Fit reads today&apos;s steps and active calories to show your activity progress.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

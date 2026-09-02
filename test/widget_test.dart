@@ -11,10 +11,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mission_fit/main.dart';
 
 void main() {
+  testWidgets('first launch profile setup collects required information', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(home: ProfileSetupScreen(onComplete: (_) async {})),
+    );
+
+    expect(find.text('Set up your profile'), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('mission-fit-setup-logo')),
+      findsOneWidget,
+    );
+    expect(find.text('Done'), findsOneWidget);
+  });
+
   testWidgets('Mission Fit home screen renders the predicted dashboard', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MissionFitApp());
+    await tester.pumpWidget(const MissionFitApp(skipOnboarding: true));
 
     expect(find.bySemanticsLabel('Mission Fit'), findsOneWidget);
     expect(find.textContaining('Welcome'), findsOneWidget);
@@ -25,10 +40,26 @@ void main() {
     expect(find.text('Quick Start'), findsOneWidget);
   });
 
+  testWidgets('app header uses the Mission Fit logo asset', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MissionFitApp(skipOnboarding: true));
+
+    final logo = tester.widget<Image>(
+      find.byKey(const ValueKey('mission-fit-header-logo')),
+    );
+
+    expect(logo.image, isA<AssetImage>());
+    expect(
+      (logo.image as AssetImage).assetName,
+      'src/assets/mission_fit_logo.png',
+    );
+  });
+
   testWidgets(
     'Mission Fit home screen uses circular progress rings and circular streak items',
     (WidgetTester tester) async {
-      await tester.pumpWidget(const MissionFitApp());
+      await tester.pumpWidget(const MissionFitApp(skipOnboarding: true));
 
       expect(find.byType(CircularProgressIndicator), findsWidgets);
       expect(
@@ -74,15 +105,40 @@ void main() {
     expect(find.byType(TextFormField), findsWidgets);
   });
 
+  testWidgets('Run workout provides a start timer action', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: WorkoutDetailScreen(
+          workoutName: 'Run',
+          exercises: const [
+            WorkoutExercise(
+              name: 'Treadmill',
+              weight: '0',
+              setEntries: [
+                WorkoutSetEntry(reps: '15', isWon: false, isComplete: false),
+              ],
+            ),
+          ],
+          onComplete: () {},
+        ),
+      ),
+    );
+
+    expect(find.text('Run timer'), findsOneWidget);
+    expect(find.text('Start timer'), findsOneWidget);
+  });
+
   testWidgets(
     'Workout tab includes the quick-start editor and updated creation label',
     (WidgetTester tester) async {
-      await tester.pumpWidget(const MissionFitApp());
+      await tester.pumpWidget(const MissionFitApp(skipOnboarding: true));
 
       await tester.tap(find.text('Workouts').first);
       await tester.pumpAndSettle();
 
-      expect(find.text('Create A New Workout!'), findsOneWidget);
+      expect(find.text('Create workout'), findsOneWidget);
       expect(find.text('Edit Quick Start'), findsOneWidget);
     },
   );
@@ -90,7 +146,7 @@ void main() {
   testWidgets('Food tab uses the Food Log card with a circular add action', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MissionFitApp());
+    await tester.pumpWidget(const MissionFitApp(skipOnboarding: true));
 
     await tester.tap(find.text('Food').first);
     await tester.pumpAndSettle();
@@ -127,7 +183,7 @@ void main() {
   testWidgets('Quick Start editor supports adding and removing exercises', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MissionFitApp());
+    await tester.pumpWidget(const MissionFitApp(skipOnboarding: true));
 
     await tester.tap(find.text('Workouts').first);
     await tester.pumpAndSettle();
@@ -146,7 +202,7 @@ void main() {
   testWidgets('Body map renders a human figure with highlighted regions', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MissionFitApp());
+    await tester.pumpWidget(const MissionFitApp(skipOnboarding: true));
 
     await tester.tap(find.text('Workouts').first);
     await tester.pumpAndSettle();

@@ -67,6 +67,10 @@ class HomeTabLogic {
     };
 
     for (final exercise in exercises) {
+      if (exercise.setEntries.isEmpty ||
+          !exercise.setEntries.every((set) => set.isComplete)) {
+        continue;
+      }
       final name = exercise.name.toLowerCase();
       if (name.contains('bench') ||
           name.contains('press') ||
@@ -82,7 +86,9 @@ class HomeTabLogic {
       if (name.contains('squat') ||
           name.contains('lunge') ||
           name.contains('leg') ||
-          name.contains('deadlift')) {
+          name.contains('deadlift') ||
+          name.contains('run') ||
+          name.contains('treadmill')) {
         map['Legs'] = true;
       }
       if (name.contains('core') ||

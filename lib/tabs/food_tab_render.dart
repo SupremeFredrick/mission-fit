@@ -76,6 +76,14 @@ class _FoodTabViewState extends State<FoodTabView> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
+                    Container(
+                      width: 128,
+                      height: 128,
+                      decoration: const BoxDecoration(
+                        color: kMissionFitDominant,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                     SizedBox(
                       width: 120,
                       height: 120,
@@ -246,7 +254,7 @@ class _FoodTabViewState extends State<FoodTabView> {
                                     widget.parent._saveSettings();
                                   },
                                   icon: const Icon(Icons.close_rounded),
-                                  color: Colors.redAccent,
+                                  color: kMissionFitAccent,
                                   tooltip: 'Delete food entry',
                                 ),
                               ],

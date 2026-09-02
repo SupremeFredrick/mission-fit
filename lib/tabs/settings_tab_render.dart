@@ -24,9 +24,10 @@ class _SettingsTabViewState extends State<SettingsTabView> {
           const SizedBox(height: 12),
           _settingField(
             'Name',
-            widget.parent._name,
-            (value) =>
-                widget.parent.setState(() => widget.parent._name = value),
+            widget.parent._profileName,
+            (value) => widget.parent.setState(
+              () => widget.parent._profileName = value,
+            ),
           ),
           _settingField(
             'Age',
@@ -131,29 +132,6 @@ class _SettingsTabViewState extends State<SettingsTabView> {
                 );
               },
             ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Social',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 12),
-          _settingField(
-            'Instagram',
-            widget.parent._instagram,
-            (value) =>
-                widget.parent.setState(() => widget.parent._instagram = value),
-          ),
-          _settingField(
-            'X',
-            widget.parent._x,
-            (value) => widget.parent.setState(() => widget.parent._x = value),
-          ),
-          _settingField(
-            'Strava',
-            widget.parent._strava,
-            (value) =>
-                widget.parent.setState(() => widget.parent._strava = value),
           ),
           const SizedBox(height: 20),
           SizedBox(

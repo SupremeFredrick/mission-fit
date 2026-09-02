@@ -70,8 +70,6 @@ class HomeTabView extends StatefulWidget {
 }
 
 class _HomeTabViewState extends State<HomeTabView> {
-  DateTime _selectedWorkoutDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
@@ -91,25 +89,46 @@ class _HomeTabViewState extends State<HomeTabView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '$weekday, $date',
-            style: const TextStyle(
-              color: kMissionFitMuted,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '$weekday, $date',
+                  style: const TextStyle(
+                    color: kMissionFitMuted,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              if (widget.parent.canReadNativeHealthData)
+                IconButton(
+                  onPressed: widget.parent._isLoadingHealthData
+                      ? null
+                      : _syncNativeActivity,
+                  icon: widget.parent._isLoadingHealthData
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.sync_rounded),
+                  color: kMissionFitAccent,
+                  tooltip: 'Sync device activity',
+                ),
+            ],
           ),
           const SizedBox(height: 18),
           Text(
-            'Welcome ${widget.parent._name}!',
+            'Welcome ${widget.parent._profileName}!',
             style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 22),
-          _buildMetricGrid(),
+          _buildMetricGrid(context),
           const SizedBox(height: 24),
           widget.buildStreakCard(),
           const SizedBox(height: 24),
-          _buildWorkoutCalendar(),
+          _buildDailyQuote(),
           const SizedBox(height: 24),
           _buildQuickStartCard(),
         ],
@@ -117,172 +136,58 @@ class _HomeTabViewState extends State<HomeTabView> {
     );
   }
 
-  Widget _buildWorkoutCalendar() {
-    final today = DateTime.now();
-    final firstDate = DateTime(today.year, today.month, today.day);
-    final dates = List.generate(
-      14,
-      (index) => firstDate.add(Duration(days: index)),
+  Future<void> _syncNativeActivity() async {
+    final loaded = await widget.parent.loadNativeActivityData();
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          loaded ? 'Device activity updated' : 'Unable to read device activity',
+        ),
+      ),
     );
-    const weekdayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  }
 
+  Widget _buildDailyQuote() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(14, 16, 14, 18),
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: kMissionFitSurface,
         borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: kMissionFitBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            child: Text(
-              'Plan A Workout',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          const Text(
+            'Daily perspective',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            '"${widget.parent._dailyQuote}"',
+            style: const TextStyle(fontSize: 16, height: 1.45),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            widget.parent._dailyQuoteAuthor,
+            style: const TextStyle(
+              color: kMissionFitMuted,
+              fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 14),
-          Row(
-            children: weekdayLabels
-                .map(
-                  (label) => Expanded(
-                    child: Center(
-                      child: Text(
-                        label,
-                        style: const TextStyle(
-                          color: kMissionFitMuted,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-          const SizedBox(height: 8),
-          for (var week = 0; week < 2; week++) ...[
-            Row(
-              children: dates.sublist(week * 7, week * 7 + 7).map((date) {
-                final isSelected =
-                    date.year == _selectedWorkoutDate.year &&
-                    date.month == _selectedWorkoutDate.month &&
-                    date.day == _selectedWorkoutDate.day;
-                final hasPlan = widget.parent._plannedWorkouts.containsKey(
-                  widget.parent._dateKey(date),
-                );
-                return Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() => _selectedWorkoutDate = date);
-                      _showWorkoutPlanner(date);
-                    },
-                    borderRadius: BorderRadius.circular(999),
-                    child: Container(
-                      height: 42,
-                      margin: const EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isSelected
-                            ? kMissionFitSecondary
-                            : Colors.transparent,
-                        border: Border.all(
-                          color: hasPlan
-                              ? kMissionFitAccent
-                              : Colors.transparent,
-                          width: 1.2,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${date.day}',
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : kMissionFitMuted,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            if (week == 0) const SizedBox(height: 8),
-          ],
         ],
       ),
     );
   }
 
-  void _showWorkoutPlanner(DateTime date) {
-    String? selectedWorkout =
-        widget.parent._plannedWorkouts[widget.parent._dateKey(date)];
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setDialogState) {
-          return AlertDialog(
-            backgroundColor: kMissionFitSurface,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(22),
-            ),
-            title: Text(
-              'Plan ${HomeTabLogic.monthName(date.month)} ${date.day}',
-            ),
-            content: SizedBox(
-              width: double.maxFinite,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: widget.parent._quickStart
-                    .map(
-                      (workout) => CheckboxListTile(
-                        value: selectedWorkout == workout,
-                        activeColor: kMissionFitAccent,
-                        checkColor: kMissionFitDominant,
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(workout),
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        onChanged: (selected) {
-                          setDialogState(() {
-                            selectedWorkout = selected == true ? workout : null;
-                          });
-                        },
-                      ),
-                    )
-                    .toList(),
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  if (selectedWorkout != null) {
-                    widget.parent.planWorkout(date, selectedWorkout!);
-                  }
-                  Navigator.pop(dialogContext);
-                },
-                child: const Text('Done'),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildMetricGrid() {
+  Widget _buildMetricGrid(BuildContext context) {
     final tdee = widget.parent._calculateTdee();
     final calorieGoal = widget.parent._calculateCalorieGoal();
-    final cutMultiplier = widget.parent._goal == 'Cut'
-        ? 0.68
-        : widget.parent._goal == 'Bulk'
-        ? 0.94
-        : 0.82;
-    final waterTarget = widget.parent._goal == 'Cut'
-        ? 2.5
-        : widget.parent._goal == 'Bulk'
-        ? 3.2
-        : 2.8;
+    final nativeCaloriesBurned = widget.parent._nativeCaloriesBurned;
+    final nativeStepCount = widget.parent._nativeStepCount;
+    final waterGoal = widget.parent.calculateWaterGoal();
     final stepTarget = widget.parent._goal == 'Cut'
         ? 12000
         : widget.parent._goal == 'Bulk'
@@ -292,13 +197,13 @@ class _HomeTabViewState extends State<HomeTabView> {
     final metrics = [
       _MetricCard(
         title: 'Calories Burned',
-        value: '${(tdee * cutMultiplier).round()}',
+        value: nativeCaloriesBurned == null
+            ? 'N/A'
+            : '${nativeCaloriesBurned.round()}',
         suffix: 'kcal',
-        progress: widget.parent._goal == 'Cut'
-            ? 0.72
-            : widget.parent._goal == 'Bulk'
-            ? 0.86
-            : 0.8,
+        progress: nativeCaloriesBurned == null
+            ? 0
+            : (nativeCaloriesBurned / tdee).clamp(0.0, 1.0),
         progressColor: kMissionFitAccent,
       ),
       _MetricCard(
@@ -313,43 +218,80 @@ class _HomeTabViewState extends State<HomeTabView> {
       ),
       _MetricCard(
         title: 'Water Intake',
-        value: waterTarget.toStringAsFixed(1),
-        suffix: 'L',
-        progress: widget.parent._goal == 'Cut'
-            ? 0.65
-            : widget.parent._goal == 'Bulk'
-            ? 0.82
-            : 0.75,
+        value: widget.parent._waterConsumed.toStringAsFixed(1),
+        suffix: ' / ${waterGoal.toStringAsFixed(1)} L',
+        progress: (widget.parent._waterConsumed / waterGoal).clamp(0.0, 1.0),
         progressColor: kMissionFitLight,
+        valueControls: _buildWaterIntakeAdjusters(),
       ),
       _MetricCard(
         title: 'Steps Taken',
-        value: stepTarget.toString(),
+        value: nativeStepCount == null ? 'N/A' : '$nativeStepCount',
         suffix: ' / $stepTarget',
-        progress: widget.parent._goal == 'Cut'
-            ? 0.84
-            : widget.parent._goal == 'Bulk'
-            ? 0.75
-            : 0.8,
+        progress: nativeStepCount == null
+            ? 0
+            : (nativeStepCount / stepTarget).clamp(0.0, 1.0),
         progressColor: kMissionFitAccent,
       ),
     ];
+
+    final useWideGrid = MediaQuery.sizeOf(context).width >= 840;
 
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: metrics.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: useWideGrid ? 4 : 2,
         mainAxisSpacing: 14,
         crossAxisSpacing: 14,
-        childAspectRatio: 1.45,
+        childAspectRatio: useWideGrid ? 1.1 : 1.05,
       ),
       itemBuilder: (context, index) => metrics[index],
     );
   }
 
+  Widget _buildWaterIntakeAdjusters() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _waterButton(
+          icon: Icons.add_rounded,
+          tooltip: 'Increase water intake',
+          onPressed: () => widget.parent.adjustWaterConsumed(0.25),
+        ),
+        const SizedBox(height: 4),
+        _waterButton(
+          icon: Icons.remove_rounded,
+          tooltip: 'Decrease water intake',
+          onPressed: () => widget.parent.adjustWaterConsumed(-0.25),
+        ),
+      ],
+    );
+  }
+
+  Widget _waterButton({
+    required IconData icon,
+    required String tooltip,
+    required VoidCallback onPressed,
+  }) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 16),
+      tooltip: tooltip,
+      style: IconButton.styleFrom(
+        minimumSize: const Size(28, 28),
+        padding: EdgeInsets.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        backgroundColor: kMissionFitDominant,
+        foregroundColor: kMissionFitAccent,
+      ),
+    );
+  }
+
   Widget _buildQuickStartCard() {
+    final useWideGrid = MediaQuery.sizeOf(context).width >= 840;
+
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -367,15 +309,15 @@ class _HomeTabViewState extends State<HomeTabView> {
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.parent._quickStart.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            itemCount: widget.parent._quickStartWorkoutNames.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: useWideGrid ? 4 : 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              childAspectRatio: 1.7,
+              childAspectRatio: useWideGrid ? 1.45 : 1.7,
             ),
             itemBuilder: (context, index) {
-              final label = widget.parent._quickStart[index];
+              final label = widget.parent._quickStartWorkoutNames[index];
               return InkWell(
                 onTap: () {
                   Navigator.push(
@@ -394,14 +336,17 @@ class _HomeTabViewState extends State<HomeTabView> {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: kMissionFitSurfaceSoft,
+                    color: kMissionFitAccent,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Center(
                     child: Text(
                       label,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        color: kMissionFitDominant,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
