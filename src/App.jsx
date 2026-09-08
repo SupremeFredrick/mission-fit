@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import logo from "./assets/mission_fit_logo.png";
 
 const STORAGE_KEY = "mission_fit_web_state_v1";
+const ONBOARDING_COMPLETE_KEY = "mission_fit_onboarding_complete";
 const navItems = ["Home", "Workouts", "Food", "Settings"];
 const weekdayLabels = ["M", "T", "W", "T", "F", "S", "S"];
 const defaultQuickStart = {
@@ -244,6 +245,132 @@ function AppLoadingScreen() {
     );
 }
 
+function ProfileSetupScreen({ initialProfile, onComplete }) {
+    const [profile, setProfile] = useState(initialProfile);
+    const [error, setError] = useState("");
+
+    function updateProfile(field, value) {
+        setProfile((current) => ({ ...current, [field]: value }));
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        const age = Number(profile.age);
+        const height = Number(profile.heightValue);
+        const weight = Number(profile.weightValue);
+
+        if (!profile.name.trim() || age <= 0 || height <= 0 || weight <= 0) {
+            setError("Enter your name, age, height, and weight to continue.");
+            return;
+        }
+
+        onComplete({
+            ...profile,
+            name: profile.name.trim(),
+            age: String(age),
+            heightValue: height,
+            weightValue: weight
+        });
+    }
+
+    return (
+        <main className="profile-setup">
+            <form className="profile-setup-form" onSubmit={handleSubmit}>
+                <img src={logo} alt="Mission Fit logo" className="setup-logo" />
+                <div>
+                    <h1>Set up your profile</h1>
+                    <p>Your information personalizes your daily targets.</p>
+                </div>
+
+                <label>
+                    <span>Name</span>
+                    <input
+                        value={profile.name}
+                        onChange={(event) => updateProfile("name", event.target.value)}
+                        autoComplete="name"
+                    />
+                </label>
+                <label>
+                    <span>Age</span>
+                    <input
+                        type="number"
+                        min="1"
+                        value={profile.age}
+                        onChange={(event) => updateProfile("age", event.target.value)}
+                    />
+                </label>
+                <div className="setup-measurement-row">
+                    <label>
+                        <span>Height</span>
+                        <input
+                            type="number"
+                            min="0.1"
+                            step="0.1"
+                            value={profile.heightValue}
+                            onChange={(event) => updateProfile("heightValue", event.target.value)}
+                        />
+                    </label>
+                    <select
+                        aria-label="Height unit"
+                        value={profile.heightUnit}
+                        onChange={(event) => updateProfile("heightUnit", event.target.value)}>
+                        <option value="cm">cm</option>
+                        <option value="in">in</option>
+                    </select>
+                </div>
+                <div className="setup-measurement-row">
+                    <label>
+                        <span>Weight</span>
+                        <input
+                            type="number"
+                            min="0.1"
+                            step="0.1"
+                            value={profile.weightValue}
+                            onChange={(event) => updateProfile("weightValue", event.target.value)}
+                        />
+                    </label>
+                    <select
+                        aria-label="Weight unit"
+                        value={profile.weightUnit}
+                        onChange={(event) => updateProfile("weightUnit", event.target.value)}>
+                        <option value="kg">kg</option>
+                        <option value="lbs">lbs</option>
+                    </select>
+                </div>
+                <label>
+                    <span>Sex</span>
+                    <select
+                        value={profile.sex}
+                        onChange={(event) => updateProfile("sex", event.target.value)}>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Activity level</span>
+                    <select
+                        value={profile.activityLevel}
+                        onChange={(event) => updateProfile("activityLevel", event.target.value)}>
+                        <option value="Sedentary">Sedentary</option>
+                        <option value="Light">Light</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Active">Active</option>
+                        <option value="Extreme">Extreme</option>
+                    </select>
+                </label>
+                {error && (
+                    <p className="setup-error" role="alert">
+                        {error}
+                    </p>
+                )}
+                <button type="submit" className="primary-button">
+                    Done
+                </button>
+            </form>
+        </main>
+    );
+}
+
 export default function App() {
     const stored = readStoredState();
     const initialState = stored ?? {
@@ -283,6 +410,9 @@ export default function App() {
         defaultCompletedWorkoutDates
     );
     const [isLoading, setIsLoading] = useState(true);
+    const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(
+        () => window.localStorage.getItem(ONBOARDING_COMPLETE_KEY) === "true"
+    );
 
     useEffect(() => {
         const loadingTimer = window.setTimeout(() => setIsLoading(false), 650);
@@ -988,6 +1118,19 @@ export default function App() {
 
     if (isLoading) {
         return <AppLoadingScreen />;
+    }
+
+    if (!hasCompletedOnboarding) {
+        return (
+            <ProfileSetupScreen
+                initialProfile={profile}
+                onComplete={(nextProfile) => {
+                    setProfile(nextProfile);
+                    window.localStorage.setItem(ONBOARDING_COMPLETE_KEY, "true");
+                    setHasCompletedOnboarding(true);
+                }}
+            />
+        );
     }
 
     return (
