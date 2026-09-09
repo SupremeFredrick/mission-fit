@@ -160,7 +160,7 @@ label {
 
 .phone-shell {
     width: min(100%, 480px);
-    min-height: min(880px, calc(100dvh - 32px));
+    height: min(880px, calc(100dvh - 32px));
     background: var(--color-dominant);
     border: 1px solid var(--color-border);
     border-radius: 28px;
@@ -177,6 +177,7 @@ label {
     justify-content: space-between;
     padding: 16px 20px 12px;
     background: var(--color-dominant);
+    flex-shrink: 0;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -221,11 +222,13 @@ label {
 
 .content {
     flex: 1;
+    min-height: 0;
     padding: 0 20px 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .card {
@@ -799,13 +802,14 @@ h2 {
 }
 
 .bottom-nav {
+    flex-shrink: 0;
     position: sticky;
     bottom: 0;
     z-index: 10;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 8px 12px 12px;
+    padding: 8px 12px max(12px, env(safe-area-inset-bottom, 12px));
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
 }
@@ -982,7 +986,8 @@ h2 {
 
     .phone-shell {
         width: 100%;
-        min-height: 100dvh;
+        height: 100vh;
+        height: 100dvh;
         border-radius: 0;
         border: none;
     }

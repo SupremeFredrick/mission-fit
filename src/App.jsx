@@ -1985,9 +1985,22 @@ function FoodEntrySheetModal({ initialEntry, savedMeals, onClose, onSaveEntry, o
                             )}
                         </div>
 
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "4px 0" }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                                margin: "4px 0"
+                            }}>
                             <hr style={{ flex: 1, borderColor: "var(--color-border)" }} />
-                            <span style={{ fontSize: "0.75rem", color: "var(--color-muted)", fontWeight: "700" }}>OR</span>
+                            <span
+                                style={{
+                                    fontSize: "0.75rem",
+                                    color: "var(--color-muted)",
+                                    fontWeight: "700"
+                                }}>
+                                OR
+                            </span>
                             <hr style={{ flex: 1, borderColor: "var(--color-border)" }} />
                         </div>
 
@@ -2146,7 +2159,12 @@ function FoodEntrySheetModal({ initialEntry, savedMeals, onClose, onSaveEntry, o
                 {tab === "meals" && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                         {savedMeals.length === 0 ? (
-                            <p style={{ color: "var(--color-muted)", fontSize: "0.85rem", textAlign: "center" }}>
+                            <p
+                                style={{
+                                    color: "var(--color-muted)",
+                                    fontSize: "0.85rem",
+                                    textAlign: "center"
+                                }}>
                                 No saved meals yet.
                             </p>
                         ) : (
@@ -2164,7 +2182,10 @@ function FoodEntrySheetModal({ initialEntry, savedMeals, onClose, onSaveEntry, o
                                     <div>
                                         <strong>{meal.name}</strong>
                                         <div
-                                            style={{ fontSize: "0.8rem", color: "var(--color-muted)" }}>
+                                            style={{
+                                                fontSize: "0.8rem",
+                                                color: "var(--color-muted)"
+                                            }}>
                                             {meal.items.map((it) => it.name).join(", ")}
                                         </div>
                                     </div>
