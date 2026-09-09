@@ -162,21 +162,34 @@ function calculateWaterGoal(profile) {
     return Math.min(5.0, Math.max(1.5, result));
 }
 
-function calculateWorkoutStreak(completedDates) {
-    if (!completedDates || completedDates.length === 0) return 0;
-    const uniqueKeys = new Set(completedDates.map((date) => dateKey(new Date(date))));
-    let cursor = new Date();
+function calculateWorkoutStreak(completedDates, plannedWorkouts = {}) {
+    const validDays = new Set();
+
+    (completedDates || []).forEach((date) => {
+        validDays.add(dateKey(new Date(date)));
+    });
+
+    Object.entries(plannedWorkouts || {}).forEach(([date, workoutName]) => {
+        if (workoutName === "Rest day") {
+            validDays.add(dateKey(new Date(date)));
+        }
+    });
+
+    if (validDays.size === 0) return 0;
+
+    const cursor = new Date();
     cursor.setHours(0, 0, 0, 0);
 
-    if (!uniqueKeys.has(dateKey(cursor))) {
+    if (!validDays.has(dateKey(cursor))) {
         cursor.setDate(cursor.getDate() - 1);
     }
 
     let streak = 0;
-    while (uniqueKeys.has(dateKey(cursor))) {
+    while (validDays.has(dateKey(cursor))) {
         streak += 1;
         cursor.setDate(cursor.getDate() - 1);
     }
+
     return streak >= 2 ? streak : 0;
 }
 
@@ -194,10 +207,19 @@ function calculateBodyMapStatus(quickStart) {
     const allExercises = Object.values(quickStart || {}).flat();
 
     for (const ex of allExercises) {
-        const name = (ex.name || "").toLowerCase();
+        const name = (ex?.name || "").trim().toLowerCase();
+        const hasMeaningfulData =
+            Array.isArray(ex?.setEntries) &&
+            ex.setEntries.some(
+                (set) =>
+                    set &&
+                    (String(set.weight ?? "").trim() !== "" || String(set.reps ?? "").trim() !== "")
+            );
+
+        if (!name || !hasMeaningfulData) continue;
+
         if (
             name.includes("bench") ||
-            name.contains?.("press") ||
             name.includes("press") ||
             name.includes("fly") ||
             name.includes("chest")
@@ -370,11 +392,11 @@ function MetricCard({ title, value, suffix, progress, accent, controls }) {
     );
 }
 
-function StreakCard({ completedDates }) {
+function StreakCard({ completedDates, plannedWorkouts }) {
     const dayLabels = ["S", "M", "T", "W", "T", "F", "S"];
     const today = new Date();
     const activeDays = calculateWeekActivity(today, completedDates);
-    const streakCount = calculateWorkoutStreak(completedDates);
+    const streakCount = calculateWorkoutStreak(completedDates, plannedWorkouts);
 
     return (
         <div className="streak-card">
@@ -745,7 +767,10 @@ export default function App() {
                     />
                 </div>
 
-                <StreakCard completedDates={completedWorkoutDates} />
+                <StreakCard
+                    completedDates={completedWorkoutDates}
+                    plannedWorkouts={plannedWorkouts}
+                />
 
                 <div className="card panel quote-card">
                     <h2>Daily perspective</h2>
@@ -768,7 +793,6 @@ export default function App() {
                                     onClick={() => handleStartWorkout(name)}>
                                     <div className="quickstart-copy">
                                         <strong>{name}</strong>
-                                        <span>{exercises.map((e) => e.name).join(" / ")}</span>
                                     </div>
                                     <span className="quickstart-time">{45 + index * 5} min</span>
                                 </div>
@@ -804,7 +828,10 @@ export default function App() {
                     </button>
                 </div>
 
-                <StreakCard completedDates={completedWorkoutDates} />
+                <StreakCard
+                    completedDates={completedWorkoutDates}
+                    plannedWorkouts={plannedWorkouts}
+                />
 
                 <div className="card calendar-card">
                     <div className="calendar-header">
@@ -1313,6 +1340,9 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
         });
     };
 
+    const displayNumericValue = (value, fallback = "0") =>
+        value === undefined || value === null ? fallback : value;
+
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="sheet-content" onClick={(e) => e.stopPropagation()}>
@@ -1393,6 +1423,20 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
                                         flexDirection: "column",
                                         gap: "8px"
                                     }}>
+                                    <div
+                                        style={{
+                                            display: "grid",
+                                            gridTemplateColumns: "160px 92px 72px",
+                                            alignItems: "center",
+                                            gap: "8px",
+                                            marginLeft: "52px",
+                                            color: "var(--color-muted)",
+                                            fontSize: "0.75rem",
+                                            justifyItems: "center"
+                                        }}>
+                                        <span>Weight</span>
+                                        <span>Reps</span>
+                                    </div>
                                     {ex.setEntries.map((set, setIdx) => (
                                         <div key={setIdx} className="set-row">
                                             <button
@@ -1401,24 +1445,59 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
                                                 onClick={() => toggleSetWon(exIdx, setIdx)}>
                                                 W
                                             </button>
+                                            <span
+                                                style={{
+                                                    fontSize: "0.8rem",
+                                                    color: "var(--color-muted)",
+                                                    minWidth: "42px"
+                                                }}>
+                                                Set {setIdx + 1}
+                                            </span>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "6px"
+                                                }}>
+                                                <input
+                                                    type="text"
+                                                    value={set.weight ?? ex.weight ?? "0"}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        setExercises((prev) => {
+                                                            const updated = [...prev];
+                                                            updated[exIdx].setEntries[
+                                                                setIdx
+                                                            ].weight = val;
+                                                            return updated;
+                                                        });
+                                                    }}
+                                                    style={{ width: "80px" }}
+                                                    placeholder="Weight"
+                                                />
+                                                <select
+                                                    value={set.weightUnit || "kg"}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        setExercises((prev) => {
+                                                            const updated = [...prev];
+                                                            updated[exIdx].setEntries[
+                                                                setIdx
+                                                            ].weightUnit = val;
+                                                            return updated;
+                                                        });
+                                                    }}
+                                                    style={{
+                                                        width: "56px",
+                                                        padding: "0.4rem 0.2rem"
+                                                    }}>
+                                                    <option value="kg">kg</option>
+                                                    <option value="lbs">lb</option>
+                                                </select>
+                                            </div>
                                             <input
                                                 type="text"
-                                                value={(set.weight ?? ex.weight) || "0"}
-                                                onChange={(e) => {
-                                                    const val = e.target.value;
-                                                    setExercises((prev) => {
-                                                        const updated = [...prev];
-                                                        updated[exIdx].setEntries[setIdx].weight =
-                                                            val;
-                                                        return updated;
-                                                    });
-                                                }}
-                                                style={{ width: "80px" }}
-                                                placeholder="Weight"
-                                            />
-                                            <input
-                                                type="text"
-                                                value={set.reps || "8"}
+                                                value={set.reps ?? "0"}
                                                 onChange={(e) => {
                                                     const val = e.target.value;
                                                     setExercises((prev) => {
@@ -1506,7 +1585,7 @@ function WorkoutBuilderModal({ onClose, onSave }) {
             const ex = { ...updated[exIndex] };
             ex.setEntries = [
                 ...(ex.setEntries || []),
-                { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false }
+                { weight: "0", weightUnit: "kg", reps: "0", isWon: false, isComplete: false }
             ];
             updated[exIndex] = ex;
             return updated;
@@ -1648,7 +1727,11 @@ function WorkoutBuilderModal({ onClose, onSave }) {
                                         </span>
                                         <input
                                             type="text"
-                                            value={set.weight || "0"}
+                                            value={
+                                                set.weight === undefined || set.weight === null
+                                                    ? "0"
+                                                    : set.weight
+                                            }
                                             onChange={(e) =>
                                                 updateSetField(
                                                     exIndex,
@@ -1676,7 +1759,11 @@ function WorkoutBuilderModal({ onClose, onSave }) {
                                         </select>
                                         <input
                                             type="text"
-                                            value={set.reps || "8"}
+                                            value={
+                                                set.reps === undefined || set.reps === null
+                                                    ? "0"
+                                                    : set.reps
+                                            }
                                             onChange={(e) =>
                                                 updateSetField(
                                                     exIndex,
@@ -1688,16 +1775,6 @@ function WorkoutBuilderModal({ onClose, onSave }) {
                                             style={{ width: "54px", textAlign: "center" }}
                                             placeholder="Reps"
                                         />
-                                        <button
-                                            type="button"
-                                            className="icon-button"
-                                            onClick={() => toggleSetComplete(exIndex, setIndex)}>
-                                            {set.isComplete ? (
-                                                <MdCheckCircle />
-                                            ) : (
-                                                <MdRadioButtonUnchecked />
-                                            )}
-                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -1743,26 +1820,121 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
     const [selectedName, setSelectedName] = useState(() => Object.keys(quickStart || {})[0] || "");
     const [newWorkoutName, setNewWorkoutName] = useState("");
 
+    const normalizeSet = (set, fallbackWeight = "0") => ({
+        weight: set?.weight ?? fallbackWeight,
+        weightUnit: set?.weightUnit || "kg",
+        reps: set?.reps ?? "0",
+        isWon: !!set?.isWon,
+        isComplete: !!set?.isComplete
+    });
+
+    const normalizeExercise = (exercise, fallbackWeight = "50") => {
+        const weight = exercise?.weight ?? fallbackWeight;
+        const setEntries =
+            Array.isArray(exercise?.setEntries) && exercise.setEntries.length > 0
+                ? exercise.setEntries.map((set) => normalizeSet(set, weight))
+                : [{ ...normalizeSet({}, weight) }];
+
+        return {
+            ...exercise,
+            weight,
+            setEntries
+        };
+    };
+
+    const ensureWorkoutStructure = (workout) =>
+        (workout || []).map((exercise) => normalizeExercise(exercise));
+
     const handleCreateWorkout = () => {
         const name = newWorkoutName.trim();
         if (!name) return;
         setData((prev) => ({
             ...prev,
             [name]: prev[name] || [
-                { name: "New Exercise", weight: "50", setEntries: [{ reps: "8" }] }
+                {
+                    name: "New Exercise",
+                    weight: "50",
+                    setEntries: [
+                        {
+                            weight: "50",
+                            weightUnit: "kg",
+                            reps: "0",
+                            isWon: false,
+                            isComplete: false
+                        }
+                    ]
+                }
             ]
         }));
         setSelectedName(name);
         setNewWorkoutName("");
     };
 
-    const exercises = data[selectedName] || [];
+    const exercises = ensureWorkoutStructure(data[selectedName] || []);
 
     const updateExercise = (idx, field, val) => {
         setData((prev) => {
             const updated = { ...prev };
             const exList = [...(updated[selectedName] || [])];
-            exList[idx] = { ...exList[idx], [field]: val };
+            exList[idx] = { ...normalizeExercise(exList[idx]), [field]: val };
+            updated[selectedName] = exList;
+            return updated;
+        });
+    };
+
+    const updateSetField = (exIdx, setIdx, field, value) => {
+        setData((prev) => {
+            const updated = { ...prev };
+            const exList = [...(updated[selectedName] || [])];
+            const normalized = normalizeExercise(exList[exIdx]);
+            const sets = [...normalized.setEntries];
+            sets[setIdx] = { ...sets[setIdx], [field]: value };
+            exList[exIdx] = { ...normalized, setEntries: sets };
+            updated[selectedName] = exList;
+            return updated;
+        });
+    };
+
+    const addSet = (exIdx) => {
+        setData((prev) => {
+            const updated = { ...prev };
+            const exList = [...(updated[selectedName] || [])];
+            const normalized = normalizeExercise(exList[exIdx]);
+            const sets = [...normalized.setEntries];
+            sets.push({
+                weight: "0",
+                weightUnit: "kg",
+                reps: "0",
+                isWon: false,
+                isComplete: false
+            });
+            exList[exIdx] = { ...normalized, setEntries: sets };
+            updated[selectedName] = exList;
+            return updated;
+        });
+    };
+
+    const removeSet = (exIdx, setIdx) => {
+        setData((prev) => {
+            const updated = { ...prev };
+            const exList = [...(updated[selectedName] || [])];
+            const normalized = normalizeExercise(exList[exIdx]);
+            const sets = normalized.setEntries.filter((_, idx) => idx !== setIdx);
+            exList[exIdx] = {
+                ...normalized,
+                setEntries:
+                    sets.length > 0
+                        ? sets
+                        : [
+                              {
+                                  weight: normalized.weight || "0",
+                                  weightUnit: "kg",
+                                  reps: "0",
+                                  isWon: false,
+                                  isComplete: false
+                              }
+                          ]
+            };
             updated[selectedName] = exList;
             return updated;
         });
@@ -1773,7 +1945,13 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
         setData((prev) => {
             const updated = { ...prev };
             const exList = [...(updated[selectedName] || [])];
-            exList.push({ name: "New Exercise", weight: "50", setEntries: [{ reps: "8" }] });
+            exList.push({
+                name: "New Exercise",
+                weight: "50",
+                setEntries: [
+                    { weight: "50", weightUnit: "kg", reps: "0", isWon: false, isComplete: false }
+                ]
+            });
             updated[selectedName] = exList;
             return updated;
         });
@@ -1841,7 +2019,7 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
                                 borderRadius: "12px",
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: "6px"
+                                gap: "8px"
                             }}>
                             <div style={{ display: "flex", gap: "8px" }}>
                                 <input
@@ -1865,14 +2043,87 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
                                     <MdClose />
                                 </button>
                             </div>
-                            <div style={{ display: "flex", gap: "8px" }}>
-                                <input
-                                    style={{ flex: 1 }}
-                                    value={ex.weight}
-                                    placeholder="Weight"
-                                    onChange={(e) => updateExercise(idx, "weight", e.target.value)}
-                                />
+
+                            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                {(ex.setEntries || []).map((set, setIdx) => (
+                                    <div
+                                        key={`${idx}-${setIdx}`}
+                                        style={{
+                                            display: "flex",
+                                            gap: "6px",
+                                            alignItems: "center"
+                                        }}>
+                                        <span
+                                            style={{
+                                                minWidth: "42px",
+                                                color: "var(--color-muted)",
+                                                fontSize: "0.8rem"
+                                            }}>
+                                            Set {setIdx + 1}
+                                        </span>
+                                        <input
+                                            type="text"
+                                            value={set.weight ?? "0"}
+                                            onChange={(e) =>
+                                                updateSetField(
+                                                    idx,
+                                                    setIdx,
+                                                    "weight",
+                                                    e.target.value
+                                                )
+                                            }
+                                            style={{ width: "64px", textAlign: "center" }}
+                                            placeholder="Weight"
+                                        />
+                                        <select
+                                            value={set.weightUnit || "kg"}
+                                            onChange={(e) =>
+                                                updateSetField(
+                                                    idx,
+                                                    setIdx,
+                                                    "weightUnit",
+                                                    e.target.value
+                                                )
+                                            }
+                                            style={{ width: "60px", padding: "0.4rem 0.2rem" }}>
+                                            <option value="kg">kg</option>
+                                            <option value="lbs">lbs</option>
+                                        </select>
+                                        <input
+                                            type="text"
+                                            value={
+                                                set.reps === undefined || set.reps === null
+                                                    ? "0"
+                                                    : set.reps
+                                            }
+                                            onChange={(e) =>
+                                                updateSetField(idx, setIdx, "reps", e.target.value)
+                                            }
+                                            style={{ width: "54px", textAlign: "center" }}
+                                            placeholder="Reps"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="icon-button"
+                                            onClick={() => removeSet(idx, setIdx)}
+                                            style={{ marginLeft: "auto" }}>
+                                            <MdClose />
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
+
+                            <button
+                                type="button"
+                                className="outlined-button"
+                                style={{
+                                    padding: "6px 12px",
+                                    fontSize: "0.8rem",
+                                    alignSelf: "center"
+                                }}
+                                onClick={() => addSet(idx)}>
+                                + Add Set
+                            </button>
                         </div>
                     ))}
                 </div>
