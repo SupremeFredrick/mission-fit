@@ -1467,7 +1467,21 @@ function WorkoutBuilderModal({ onClose, onSave }) {
         {
             name: "Bench Press",
             weight: "80",
-            setEntries: [{ reps: "8", isWon: false, isComplete: false }]
+            setEntries: [
+                { weight: "80", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
+                { weight: "80", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
+                { weight: "80", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
+                { weight: "80", weightUnit: "kg", reps: "6", isWon: false, isComplete: false }
+            ]
+        },
+        {
+            name: "Rows",
+            weight: "60",
+            setEntries: [
+                { weight: "60", weightUnit: "kg", reps: "10", isWon: false, isComplete: false },
+                { weight: "60", weightUnit: "kg", reps: "10", isWon: false, isComplete: false },
+                { weight: "60", weightUnit: "kg", reps: "8", isWon: false, isComplete: false }
+            ]
         }
     ]);
 
@@ -1477,14 +1491,82 @@ function WorkoutBuilderModal({ onClose, onSave }) {
             {
                 name: "New Exercise",
                 weight: "50",
-                setEntries: [{ reps: "8", isWon: false, isComplete: false }]
+                setEntries: [
+                    { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
+                    { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
+                    { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false }
+                ]
             }
         ]);
     };
 
+    const addSet = (exIndex) => {
+        setExercises((prev) => {
+            const updated = [...prev];
+            const ex = { ...updated[exIndex] };
+            ex.setEntries = [
+                ...(ex.setEntries || []),
+                { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false }
+            ];
+            updated[exIndex] = ex;
+            return updated;
+        });
+    };
+
+    const removeExercise = (exIndex) => {
+        setExercises((prev) => prev.filter((_, i) => i !== exIndex));
+    };
+
+    const updateExerciseName = (exIndex, newName) => {
+        setExercises((prev) => {
+            const updated = [...prev];
+            updated[exIndex] = { ...updated[exIndex], name: newName };
+            return updated;
+        });
+    };
+
+    const updateSetField = (exIndex, setIndex, field, value) => {
+        setExercises((prev) => {
+            const updated = [...prev];
+            const ex = { ...updated[exIndex] };
+            const sets = [...ex.setEntries];
+            sets[setIndex] = { ...sets[setIndex], [field]: value };
+            ex.setEntries = sets;
+            updated[exIndex] = ex;
+            return updated;
+        });
+    };
+
+    const toggleSetWon = (exIndex, setIndex) => {
+        setExercises((prev) => {
+            const updated = [...prev];
+            const ex = { ...updated[exIndex] };
+            const sets = [...ex.setEntries];
+            sets[setIndex] = { ...sets[setIndex], isWon: !sets[setIndex].isWon };
+            ex.setEntries = sets;
+            updated[exIndex] = ex;
+            return updated;
+        });
+    };
+
+    const toggleSetComplete = (exIndex, setIndex) => {
+        setExercises((prev) => {
+            const updated = [...prev];
+            const ex = { ...updated[exIndex] };
+            const sets = [...ex.setEntries];
+            sets[setIndex] = { ...sets[setIndex], isComplete: !sets[setIndex].isComplete };
+            ex.setEntries = sets;
+            updated[exIndex] = ex;
+            return updated;
+        });
+    };
+
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
+            <div
+                className="sheet-content"
+                style={{ maxHeight: "90vh" }}
+                onClick={(e) => e.stopPropagation()}>
                 <div
                     style={{
                         display: "flex",
@@ -1499,61 +1581,158 @@ function WorkoutBuilderModal({ onClose, onSave }) {
 
                 <label>
                     <span>Workout Name</span>
-                    <input value={name} onChange={(e) => setName(e.target.value)} />
+                    <input
+                        value={name}
+                        placeholder="Push Day"
+                        onChange={(e) => setName(e.target.value)}
+                    />
                 </label>
 
                 <div
                     style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "10px",
-                        maxHeight: "300px",
-                        overflowY: "auto"
+                        gap: "12px",
+                        overflowY: "auto",
+                        maxHeight: "50vh",
+                        paddingRight: "4px"
                     }}>
-                    {exercises.map((ex, index) => (
+                    {exercises.map((ex, exIndex) => (
                         <div
-                            key={index}
+                            key={exIndex}
                             style={{
-                                padding: "10px",
+                                padding: "12px",
                                 background: "var(--color-surface-soft)",
-                                borderRadius: "12px"
+                                borderRadius: "14px",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "10px"
                             }}>
-                            <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                                 <input
                                     style={{ flex: 1 }}
                                     value={ex.name}
                                     placeholder="Exercise name"
-                                    onChange={(e) => {
-                                        const val = e.target.value;
-                                        setExercises((prev) => {
-                                            const updated = [...prev];
-                                            updated[index].name = val;
-                                            return updated;
-                                        });
-                                    }}
+                                    onChange={(e) => updateExerciseName(exIndex, e.target.value)}
                                 />
                                 <button
                                     type="button"
                                     className="icon-button"
-                                    onClick={() =>
-                                        setExercises((prev) => prev.filter((_, i) => i !== index))
-                                    }>
+                                    style={{ color: "var(--color-accent)" }}
+                                    onClick={() => removeExercise(exIndex)}>
                                     <MdClose />
                                 </button>
                             </div>
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "8px"
+                                }}>
+                                {ex.setEntries.map((set, setIndex) => (
+                                    <div key={setIndex} className="set-row">
+                                        <button
+                                            type="button"
+                                            className={`win-btn ${set.isWon ? "won" : ""}`}
+                                            onClick={() => toggleSetWon(exIndex, setIndex)}>
+                                            W
+                                        </button>
+                                        <span
+                                            style={{
+                                                fontSize: "0.8rem",
+                                                color: "var(--color-muted)",
+                                                minWidth: "42px"
+                                            }}>
+                                            Set {setIndex + 1}
+                                        </span>
+                                        <input
+                                            type="text"
+                                            value={set.weight || "0"}
+                                            onChange={(e) =>
+                                                updateSetField(
+                                                    exIndex,
+                                                    setIndex,
+                                                    "weight",
+                                                    e.target.value
+                                                )
+                                            }
+                                            style={{ width: "64px", textAlign: "center" }}
+                                            placeholder="Weight"
+                                        />
+                                        <select
+                                            value={set.weightUnit || "kg"}
+                                            onChange={(e) =>
+                                                updateSetField(
+                                                    exIndex,
+                                                    setIndex,
+                                                    "weightUnit",
+                                                    e.target.value
+                                                )
+                                            }
+                                            style={{ width: "60px", padding: "0.4rem 0.2rem" }}>
+                                            <option value="kg">kg</option>
+                                            <option value="lbs">lbs</option>
+                                        </select>
+                                        <input
+                                            type="text"
+                                            value={set.reps || "8"}
+                                            onChange={(e) =>
+                                                updateSetField(
+                                                    exIndex,
+                                                    setIndex,
+                                                    "reps",
+                                                    e.target.value
+                                                )
+                                            }
+                                            style={{ width: "54px", textAlign: "center" }}
+                                            placeholder="Reps"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="icon-button"
+                                            onClick={() => toggleSetComplete(exIndex, setIndex)}>
+                                            {set.isComplete ? (
+                                                <MdCheckCircle />
+                                            ) : (
+                                                <MdRadioButtonUnchecked />
+                                            )}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button
+                                type="button"
+                                className="outlined-button"
+                                style={{
+                                    padding: "6px 12px",
+                                    fontSize: "0.8rem",
+                                    alignSelf: "center"
+                                }}
+                                onClick={() => addSet(exIndex)}>
+                                + Add Set
+                            </button>
                         </div>
                     ))}
                 </div>
 
-                <button type="button" className="outlined-button" onClick={addExercise}>
-                    + Add Exercise
-                </button>
-                <button
-                    type="button"
-                    className="primary-button"
-                    onClick={() => onSave(name || "Custom", exercises)}>
-                    Save Workout
-                </button>
+                <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
+                    <button
+                        type="button"
+                        className="outlined-button"
+                        style={{ flex: 1 }}
+                        onClick={addExercise}>
+                        Add Exercise
+                    </button>
+                    <button
+                        type="button"
+                        className="primary-button"
+                        style={{ flex: 1 }}
+                        onClick={() => onSave(name.trim() || "Push Day", exercises)}>
+                        Save Workout
+                    </button>
+                </div>
             </div>
         </div>
     );

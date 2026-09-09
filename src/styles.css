@@ -176,6 +176,7 @@ label {
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px 12px;
+    padding-top: max(16px, calc(16px + env(safe-area-inset-top, 0px)));
     background: var(--color-dominant);
     flex-shrink: 0;
     position: sticky;
@@ -990,5 +991,9 @@ h2 {
         height: 100dvh;
         border-radius: 0;
         border: none;
+    }
+
+    .topbar {
+        padding-top: max(16px, calc(16px + env(safe-area-inset-top, 0px)));
     }
 }
