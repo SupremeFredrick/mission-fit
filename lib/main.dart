@@ -533,74 +533,21 @@ class MissionFitHomeState extends State<MissionFitHome> {
     Icons.settings_rounded,
   ];
 
-  String _profileName = 'Alex';
-  String _age = '27';
-  double _heightValue = 180;
+  String _profileName = '';
+  String _age = '';
+  double _heightValue = 0;
   String _heightUnit = 'cm';
-  double _weightValue = 74;
+  double _weightValue = 0;
   String _weightUnit = 'kg';
   String _sex = 'Male';
   String _activityLevel = 'Moderate';
   String _instagramHandle = '@missionfit';
   String _xHandle = '@missionfit';
   String _stravaHandle = 'missionfit';
-  String _workoutName = 'Push Day';
-  List<String> _quickStartWorkoutNames = ['Push', 'Pull', 'Legs', 'Run'];
-  String _selectedQuickStartWorkout = 'Push';
-  final Map<String, List<WorkoutExercise>> _quickStartWorkouts = {
-    'Push': [
-      const WorkoutExercise(
-        name: 'Bench Press',
-        weight: '80',
-        setEntries: [
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '6', isWon: false, isComplete: false),
-        ],
-      ),
-      const WorkoutExercise(
-        name: 'Incline Press',
-        weight: '65',
-        setEntries: [
-          WorkoutSetEntry(reps: '10', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-        ],
-      ),
-    ],
-    'Pull': [
-      const WorkoutExercise(
-        name: 'Rows',
-        weight: '60',
-        setEntries: [
-          WorkoutSetEntry(reps: '10', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '10', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-        ],
-      ),
-    ],
-    'Legs': [
-      const WorkoutExercise(
-        name: 'Squat',
-        weight: '100',
-        setEntries: [
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '8', isWon: false, isComplete: false),
-          WorkoutSetEntry(reps: '6', isWon: false, isComplete: false),
-        ],
-      ),
-    ],
-    'Run': [
-      const WorkoutExercise(
-        name: 'Treadmill',
-        weight: '0',
-        setEntries: [
-          WorkoutSetEntry(reps: '15', isWon: false, isComplete: false),
-        ],
-      ),
-    ],
-  };
+  String _workoutName = '';
+  List<String> _quickStartWorkoutNames = [];
+  String _selectedQuickStartWorkout = '';
+  final Map<String, List<WorkoutExercise>> _quickStartWorkouts = {};
   List<FoodEntry> _foodEntries = [
     const FoodEntry(
       name: 'Greek yogurt, berries, oats',
@@ -624,22 +571,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
       fat: 4,
     ),
   ];
-  List<MealPreset> _savedMeals = [
-    const MealPreset(
-      name: 'Post-Workout',
-      items: [
-        FoodEntry(
-          name: 'Protein shake',
-          calories: 240,
-          protein: 28,
-          carbs: 12,
-          fat: 4,
-        ),
-        FoodEntry(name: 'Banana', calories: 105, protein: 1, carbs: 27, fat: 0),
-      ],
-      isSelected: false,
-    ),
-  ];
+  List<MealPreset> _savedMeals = [];
   List<WorkoutExercise> _exercises = [
     WorkoutExercise(
       name: 'Bench Press',
@@ -680,12 +612,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
   bool get canReadNativeHealthData =>
       !kIsWeb && (Platform.isAndroid || Platform.isIOS);
   final Map<String, String> _plannedWorkouts = {};
-  final List<DateTime> _completedWorkoutDates = [
-    DateTime.now().subtract(const Duration(days: 0)),
-    DateTime.now().subtract(const Duration(days: 1)),
-    DateTime.now().subtract(const Duration(days: 2)),
-    DateTime.now().subtract(const Duration(days: 3)),
-  ];
+  final List<DateTime> _completedWorkoutDates = [];
 
   @override
   void initState() {
@@ -705,8 +632,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
       if (savedHeightValue != null) {
         _heightValue = savedHeightValue;
       } else {
-        final heightText =
-            _preferences.getString('mission_fit_height') ?? '180 cm';
+        final heightText = _preferences.getString('mission_fit_height') ?? '';
         final parsed = _parseNumericValue(heightText);
         if (parsed > 0) {
           _heightValue = parsed;
@@ -724,8 +650,7 @@ class MissionFitHomeState extends State<MissionFitHome> {
       if (savedWeightValue != null) {
         _weightValue = savedWeightValue;
       } else {
-        final weightText =
-            _preferences.getString('mission_fit_weight') ?? '74 kg';
+        final weightText = _preferences.getString('mission_fit_weight') ?? '';
         final parsed = _parseNumericValue(weightText);
         if (parsed > 0) {
           _weightValue = parsed;
