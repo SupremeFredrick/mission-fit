@@ -5,27 +5,28 @@ import {
     MdFitnessCenter,
     MdRestaurant,
     MdSettings,
-    MdAdd,
     MdClose,
     MdSync,
     MdPlayArrow,
     MdPause,
     MdRestartAlt,
-    MdEditNote,
     MdSearch,
     MdQrCodeScanner,
     MdCheckCircle,
-    MdRadioButtonUnchecked,
-    MdCheck
+    MdRadioButtonUnchecked
 } from "react-icons/md";
 import logo from "./assets/mission_fit_logo.png";
+import HomeTab from "./tabs/HomeTab";
+import WorkoutsTab from "./tabs/WorkoutsTab";
+import FoodTab from "./tabs/FoodTab";
+import SettingsTab from "./tabs/SettingsTab";
+import { calculateBodyMapStatus } from "./tabs/TabShared";
 
 const STORAGE_KEY = "mission_fit_web_state_v4";
 const ONBOARDING_COMPLETE_KEY = "mission_fit_onboarding_complete";
 
 const navItems = ["Home", "Workouts", "Food", "Settings"];
 const navIcons = [MdHome, MdFitnessCenter, MdRestaurant, MdSettings];
-const weekdayLabels = ["M", "T", "W", "T", "F", "S", "S"];
 
 const defaultQuickStart = {};
 
@@ -47,6 +48,19 @@ const defaultFoodEntries = [
 ];
 
 const defaultSavedMeals = [];
+
+const fallbackQuotes = [
+    { text: "The impediment to action advances action. What stands in the way becomes the way.", author: "Marcus Aurelius" },
+    { text: "You have power over your mind — not outside events. Realize this, and you will find strength.", author: "Marcus Aurelius" },
+    { text: "It is not that we have a short time to live, but that we waste a great deal of it.", author: "Seneca" },
+    { text: "No man is free who is not master of himself.", author: "Epictetus" },
+    { text: "We suffer more often in imagination than in reality.", author: "Seneca" },
+    { text: "First say to yourself what you would be; and then do what you have to do.", author: "Epictetus" },
+    { text: "The best revenge is not to be like your enemy.", author: "Marcus Aurelius" },
+    { text: "Difficulties strengthen the mind, as labor does the body.", author: "Seneca" },
+    { text: "He who is brave is free.", author: "Seneca" },
+    { text: "Don't explain your philosophy. Embody it.", author: "Epictetus" }
+];
 
 function dateKey(date) {
     const year = date.getFullYear();
@@ -160,262 +174,6 @@ function calculateWaterGoal(profile) {
     const result =
         weightKg * 0.033 + activityAdjustment + sexAdjustment + heightAdjustment + ageAdjustment;
     return Math.min(5.0, Math.max(1.5, result));
-}
-
-function calculateWorkoutStreak(completedDates, plannedWorkouts = {}) {
-    const validDays = new Set();
-
-    (completedDates || []).forEach((date) => {
-        validDays.add(dateKey(new Date(date)));
-    });
-
-    Object.entries(plannedWorkouts || {}).forEach(([date, workoutName]) => {
-        if (workoutName === "Rest day") {
-            validDays.add(dateKey(new Date(date)));
-        }
-    });
-
-    if (validDays.size === 0) return 0;
-
-    const cursor = new Date();
-    cursor.setHours(0, 0, 0, 0);
-
-    if (!validDays.has(dateKey(cursor))) {
-        cursor.setDate(cursor.getDate() - 1);
-    }
-
-    let streak = 0;
-    while (validDays.has(dateKey(cursor))) {
-        streak += 1;
-        cursor.setDate(cursor.getDate() - 1);
-    }
-
-    return streak >= 2 ? streak : 0;
-}
-
-function calculateWeekActivity(today, completedDates) {
-    const uniqueKeys = new Set((completedDates || []).map((date) => dateKey(new Date(date))));
-    return Array.from({ length: 7 }, (_, index) => {
-        const date = new Date(today);
-        date.setDate(today.getDate() - (6 - index));
-        return uniqueKeys.has(dateKey(date));
-    });
-}
-
-function calculateBodyMapStatus(quickStart) {
-    const map = { Chest: false, Back: false, Legs: false, Core: false, Shoulders: false };
-    const allExercises = Object.values(quickStart || {}).flat();
-
-    for (const ex of allExercises) {
-        const name = (ex?.name || "").trim().toLowerCase();
-        const hasMeaningfulData =
-            Array.isArray(ex?.setEntries) &&
-            ex.setEntries.some(
-                (set) =>
-                    set &&
-                    (String(set.weight ?? "").trim() !== "" || String(set.reps ?? "").trim() !== "")
-            );
-
-        if (!name || !hasMeaningfulData) continue;
-
-        if (
-            name.includes("bench") ||
-            name.includes("press") ||
-            name.includes("fly") ||
-            name.includes("chest")
-        ) {
-            map.Chest = true;
-        }
-        if (
-            name.includes("row") ||
-            name.includes("pull") ||
-            name.includes("back") ||
-            name.includes("lat")
-        ) {
-            map.Back = true;
-        }
-        if (
-            name.includes("squat") ||
-            name.includes("lunge") ||
-            name.includes("leg") ||
-            name.includes("deadlift") ||
-            name.includes("run") ||
-            name.includes("treadmill")
-        ) {
-            map.Legs = true;
-        }
-        if (
-            name.includes("core") ||
-            name.includes("plank") ||
-            name.includes("crunch") ||
-            name.includes("abs")
-        ) {
-            map.Core = true;
-        }
-        if (name.includes("shoulder") || name.includes("raise") || name.includes("overhead")) {
-            map.Shoulders = true;
-        }
-    }
-    return map;
-}
-
-function BodyMap({ highlightedParts = {} }) {
-    const primaryColor = "#ce0e2d";
-    const outlineColor = "#a2a9ad";
-    const bodyColor = "#000000";
-
-    const head = (cx) => <ellipse cx={cx} cy={38} rx={19} ry={23} />;
-    const torso = (cx) => (
-        <path
-            d={`M ${cx - 28} 65 Q ${cx - 43} 86 ${cx - 35} 129 Q ${cx - 29} 153 ${cx - 22} 166 L ${cx - 17} 184 L ${cx + 17} 184 L ${cx + 22} 166 Q ${cx + 29} 153 ${cx + 35} 129 Q ${cx + 43} 86 ${cx + 28} 65 Z`}
-        />
-    );
-    const arm = (cx, isLeft) => {
-        const dir = isLeft ? -1 : 1;
-        return (
-            <path
-                d={`M ${cx + dir * 28} 70 Q ${cx + dir * 47} 80 ${cx + dir * 43} 109 L ${cx + dir * 38} 156 Q ${cx + dir * 36} 171 ${cx + dir * 27} 169 Q ${cx + dir * 22} 165 ${cx + dir * 25} 151 L ${cx + dir * 30} 107 Q ${cx + dir * 27} 86 ${cx + dir * 19} 76 Z`}
-            />
-        );
-    };
-    const leg = (cx, isLeft) => {
-        const dir = isLeft ? -1 : 1;
-        return (
-            <path
-                d={`M ${cx + dir * 16} 183 Q ${cx + dir * 30} 205 ${cx + dir * 25} 235 L ${cx + dir * 23} 270 L ${cx + dir * 4} 270 L ${cx + dir * 3} 232 Q ${cx + dir * 4} 204 ${cx + dir * 1} 184 Z`}
-            />
-        );
-    };
-
-    const renderFigure = (cx, isBack) => (
-        <g key={cx}>
-            <g fill={bodyColor} stroke={outlineColor} strokeWidth="1.5">
-                {head(cx)}
-                {torso(cx)}
-                {arm(cx, true)}
-                {arm(cx, false)}
-                {leg(cx, true)}
-                {leg(cx, false)}
-            </g>
-
-            {/* Shoulders */}
-            <g
-                fill={highlightedParts.Shoulders ? primaryColor : bodyColor}
-                stroke={outlineColor}
-                strokeWidth="1.5">
-                <ellipse cx={cx - 25} cy={74} rx={11} ry={9} />
-                <ellipse cx={cx + 25} cy={74} rx={11} ry={9} />
-            </g>
-
-            {/* Chest / Back */}
-            <g
-                fill={
-                    isBack
-                        ? highlightedParts.Back
-                            ? primaryColor
-                            : bodyColor
-                        : highlightedParts.Chest
-                          ? primaryColor
-                          : bodyColor
-                }
-                stroke={outlineColor}
-                strokeWidth="1.5">
-                {isBack ? (
-                    <path
-                        d={`M ${cx - 26} 84 Q ${cx} 100 ${cx + 26} 84 L ${cx + 22} 130 Q ${cx} 147 ${cx - 22} 130 Z`}
-                    />
-                ) : (
-                    <path
-                        d={`M ${cx - 23} 87 Q ${cx - 7} 81 ${cx} 95 Q ${cx + 7} 81 ${cx + 23} 87 L ${cx + 20} 119 Q ${cx} 126 ${cx - 20} 119 Z`}
-                    />
-                )}
-            </g>
-
-            {/* Core */}
-            <g
-                fill={highlightedParts.Core ? primaryColor : bodyColor}
-                stroke={outlineColor}
-                strokeWidth="1.5">
-                <rect x={cx - 12} y={124} width={24} height={42} rx={8} ry={8} />
-            </g>
-
-            {/* Legs Overlay */}
-            <g
-                fill={highlightedParts.Legs ? primaryColor : bodyColor}
-                stroke={outlineColor}
-                strokeWidth="1.5">
-                <rect x={cx - 24} y={190} width={18} height={48} rx={7} ry={7} />
-                <rect x={cx + 6} y={190} width={18} height={48} rx={7} ry={7} />
-            </g>
-        </g>
-    );
-
-    return (
-        <svg viewBox="0 0 300 280" width="300" height="280">
-            <text x="85" y="16" fill="#a2a9ad" fontSize="11" fontWeight="700" textAnchor="middle">
-                FRONT
-            </text>
-            <text x="215" y="16" fill="#a2a9ad" fontSize="11" fontWeight="700" textAnchor="middle">
-                BACK
-            </text>
-            {renderFigure(85, false)}
-            {renderFigure(215, true)}
-        </svg>
-    );
-}
-
-function MetricCard({ title, value, suffix, progress, accent, controls }) {
-    const percent = Math.min(100, Math.max(0, Math.round((progress || 0) * 100)));
-
-    return (
-        <div className="metric-card">
-            <div className="metric-title">{title}</div>
-            <div className="metric-body">
-                <div
-                    className="mini-ring"
-                    style={{
-                        background: `conic-gradient(${accent} 0 ${percent}%, rgba(255,255,255,0.08) ${percent}% 100%)`
-                    }}>
-                    <div className="mini-ring-inner">
-                        <span>{percent}%</span>
-                    </div>
-                </div>
-                <div className="metric-value-col">
-                    <div className="metric-value-row">
-                        <strong>{value}</strong>
-                    </div>
-                    <small>{suffix}</small>
-                    {controls && <div className="metric-controls">{controls}</div>}
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function StreakCard({ completedDates, plannedWorkouts }) {
-    const dayLabels = ["S", "M", "T", "W", "T", "F", "S"];
-    const today = new Date();
-    const activeDays = calculateWeekActivity(today, completedDates);
-    const streakCount = calculateWorkoutStreak(completedDates, plannedWorkouts);
-
-    return (
-        <div className="streak-card">
-            <h3>Streak Counter</h3>
-            <div className="streak-days">
-                {dayLabels.map((day, index) => {
-                    const isActive = activeDays[index];
-                    return (
-                        <div
-                            key={`${day}-${index}`}
-                            className={isActive ? "streak-dot active" : "streak-dot"}>
-                            {day}
-                        </div>
-                    );
-                })}
-            </div>
-            <div className="streak-label">{streakCount}-day streak!</div>
-        </div>
-    );
 }
 
 function AppLoadingScreen() {
@@ -567,8 +325,12 @@ export default function App() {
     const [plannedWorkouts, setPlannedWorkouts] = useState({});
     const [quickStart, setQuickStart] = useState(defaultQuickStart);
     const [completedWorkoutDates, setCompletedWorkoutDates] = useState([]);
+    const [completedWorkoutData, setCompletedWorkoutData] = useState({});
     const [selectedTab, setSelectedTab] = useState("Home");
     const [selectedWorkoutDate, setSelectedWorkoutDate] = useState(dateKey(new Date()));
+    // Empty initial date forces a quote fetch on first load instead of
+    // settling for the hardcoded default quote.
+    const [dailyQuoteDate, setDailyQuoteDate] = useState("");
 
     // Active Modals / Sheets
     const [activeWorkoutModal, setActiveWorkoutModal] = useState(null); // { name, exercises }
@@ -600,6 +362,12 @@ export default function App() {
                 if (parsed.quickStart) setQuickStart(parsed.quickStart);
                 if (parsed.completedWorkoutDates)
                     setCompletedWorkoutDates(parsed.completedWorkoutDates);
+                if (parsed.completedWorkoutData)
+                    setCompletedWorkoutData(parsed.completedWorkoutData);
+                if (parsed.dailyQuote?.date && parsed.dailyQuote?.quote) {
+                    setDailyQuoteDate(parsed.dailyQuote.date);
+                    setDailyQuote(parsed.dailyQuote.quote);
+                }
             }
         } catch (_) {}
         const loadingTimer = window.setTimeout(() => setIsLoading(false), 500);
@@ -617,7 +385,12 @@ export default function App() {
             savedMeals,
             plannedWorkouts,
             quickStart,
-            completedWorkoutDates
+            completedWorkoutDates,
+            completedWorkoutData,
+            dailyQuote: {
+                date: dailyQuoteDate,
+                quote: dailyQuote
+            }
         };
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     }, [
@@ -629,23 +402,56 @@ export default function App() {
         plannedWorkouts,
         quickStart,
         completedWorkoutDates,
+        completedWorkoutData,
+        dailyQuote,
+        dailyQuoteDate,
         isLoading
     ]);
 
     // Daily Stoic quote fetch
     useEffect(() => {
-        async function fetchQuote() {
+        let cancelled = false;
+
+        // Deterministic per-day pick from the local pool so the quote still
+        // rotates daily even when the API is unreachable.
+        function fallbackQuoteFor(dateString) {
+            const daysSinceEpoch = Math.floor(
+                new Date(`${dateString}T00:00:00`).getTime() / 86400000
+            );
+            const index = Math.abs(daysSinceEpoch) % fallbackQuotes.length;
+            return fallbackQuotes[index];
+        }
+
+        async function ensureQuoteForToday() {
+            const todayKey = dateKey(new Date());
+            if (dailyQuoteDate === todayKey) return;
             try {
                 const response = await fetch("https://stoic.tekloon.net/stoic-quote");
-                if (!response.ok) return;
+                if (!response.ok) throw new Error("Quote request failed");
                 const payload = await response.json();
                 if (payload?.data?.quote && payload?.data?.author) {
+                    if (cancelled) return;
                     setDailyQuote({ text: payload.data.quote, author: payload.data.author });
+                    setDailyQuoteDate(todayKey);
+                    return;
                 }
-            } catch (_) {}
+                throw new Error("Quote payload invalid");
+            } catch (_) {
+                if (cancelled) return;
+                setDailyQuote(fallbackQuoteFor(todayKey));
+                setDailyQuoteDate(todayKey);
+            }
         }
-        fetchQuote();
-    }, []);
+
+        ensureQuoteForToday();
+        // Re-check periodically so the quote rotates at midnight even if the
+        // app stays open across days.
+        const rolloverCheck = window.setInterval(ensureQuoteForToday, 60000);
+        return () => {
+            cancelled = true;
+            window.clearInterval(rolloverCheck);
+        };
+    }, [dailyQuoteDate]);
 
     // Calculations
     const calorieGoal = useMemo(() => calculateCalorieGoal(profile, goal), [profile, goal]);
@@ -700,447 +506,57 @@ export default function App() {
         const name = workoutName || todayWorkoutName;
         if (!name || name === "Rest day") return;
         const exercises = quickStart[name] || defaultQuickStart.Push;
-        setActiveWorkoutModal({ name, exercises: JSON.parse(JSON.stringify(exercises)) });
+        const previousWorkout = completedWorkoutData[name] || {};
+        const sessionExercises = JSON.parse(JSON.stringify(exercises)).map((exercise) => {
+            const previousExercise = previousWorkout[exercise.name];
+            if (!previousExercise) return exercise;
+
+            return {
+                ...exercise,
+                setEntries: exercise.setEntries.map((set, index) => {
+                    const previousSet = previousExercise[index];
+                    if (!previousSet) return set;
+
+                    return {
+                        ...set,
+                        weight: previousSet.weight ?? set.weight ?? "",
+                        reps: previousSet.reps ?? set.reps ?? "",
+                        weightUnit: previousSet.weightUnit || set.weightUnit || "kg",
+                        previousWeight:
+                            previousSet.weight !== undefined &&
+                            String(previousSet.weight).trim() !== "",
+                        previousReps:
+                            previousSet.reps !== undefined && String(previousSet.reps).trim() !== ""
+                    };
+                })
+            };
+        });
+
+        setActiveWorkoutModal({ name, exercises: sessionExercises });
     }
 
-    function handleCompleteWorkout() {
+    function handleCompleteWorkout(workout) {
         const today = new Date();
         setCompletedWorkoutDates((current) => {
             const exists = current.some((d) => dateKey(new Date(d)) === dateKey(today));
             return exists ? current : [...current, today];
         });
+        if (workout) {
+            setCompletedWorkoutData((current) => ({
+                ...current,
+                [workout.name]: Object.fromEntries(
+                    workout.exercises.map((exercise) => [
+                        exercise.name,
+                        exercise.setEntries.map((set) => ({
+                            weight: set.weight ?? "",
+                            reps: set.reps ?? "",
+                            weightUnit: set.weightUnit || "kg"
+                        }))
+                    ])
+                )
+            }));
+        }
         setActiveWorkoutModal(null);
-    }
-
-    function renderHomeTab() {
-        const now = new Date();
-        const dateString = `${now.toLocaleDateString("en-US", { weekday: "long" })}, ${now.getDate()} ${monthName(now.getMonth())} ${now.getFullYear()}`;
-
-        return (
-            <>
-                <div className="date-row">
-                    <span>{dateString}</span>
-                </div>
-
-                <div>
-                    <h1>Welcome{profile.name ? ` ${profile.name}` : ""}!</h1>
-                </div>
-
-                <div className="stats-grid">
-                    <MetricCard
-                        title="Calories Consumed"
-                        value={String(Math.round(totalCalories))}
-                        suffix="kcal"
-                        progress={calorieProgress}
-                        accent="#a2a9ad"
-                    />
-                    <MetricCard
-                        title="Water Intake"
-                        value={waterConsumed.toFixed(1)}
-                        suffix={`/ ${waterGoal.toFixed(1)} L`}
-                        progress={waterProgress}
-                        accent="#ffffff"
-                        controls={
-                            <>
-                                <button
-                                    type="button"
-                                    className="tiny-button"
-                                    onClick={() =>
-                                        setWaterConsumed((c) =>
-                                            Math.max(0, Number((c - 0.25).toFixed(2)))
-                                        )
-                                    }>
-                                    −
-                                </button>
-                                <button
-                                    type="button"
-                                    className="tiny-button"
-                                    onClick={() =>
-                                        setWaterConsumed((c) =>
-                                            Math.min(10, Number((c + 0.25).toFixed(2)))
-                                        )
-                                    }>
-                                    +
-                                </button>
-                            </>
-                        }
-                    />
-                </div>
-
-                <StreakCard
-                    completedDates={completedWorkoutDates}
-                    plannedWorkouts={plannedWorkouts}
-                />
-
-                <div className="card panel quote-card">
-                    <h2>Daily perspective</h2>
-                    <blockquote className="quote-block">“{dailyQuote.text}”</blockquote>
-                    <div className="quote-author">{dailyQuote.author}</div>
-                </div>
-
-                <div className="card panel quickstart-card">
-                    <h2>Quick Start</h2>
-                    <div className="quickstart-list">
-                        {Object.keys(quickStart).length === 0 ? (
-                            <p style={{ color: "var(--color-muted)", fontSize: "0.85rem" }}>
-                                No quick start workouts yet.
-                            </p>
-                        ) : (
-                            Object.entries(quickStart).map(([name, exercises], index) => (
-                                <div
-                                    key={name}
-                                    className="quickstart-row"
-                                    onClick={() => handleStartWorkout(name)}>
-                                    <div className="quickstart-copy">
-                                        <strong>{name}</strong>
-                                    </div>
-                                    <span className="quickstart-time">{45 + index * 5} min</span>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-            </>
-        );
-    }
-
-    function renderWorkoutsTab() {
-        const now = new Date();
-        const weekdayName = now.toLocaleDateString("en-US", { weekday: "long" });
-        const dateString = `${weekdayName}, ${now.getDate()} ${monthName(now.getMonth())} ${now.getFullYear()}`;
-
-        return (
-            <>
-                <div className="date-row">
-                    <span>{dateString}</span>
-                </div>
-
-                <div className="today-banner">
-                    <div className="today-banner-copy">
-                        <h3>{weekdayName}</h3>
-                        <strong>{todayWorkoutName}</strong>
-                    </div>
-                    <button
-                        type="button"
-                        className="primary-button"
-                        onClick={() => handleStartWorkout(todayWorkoutName)}>
-                        {todayWorkoutName === "Rest day" ? "Plan" : "Start"}
-                    </button>
-                </div>
-
-                <StreakCard
-                    completedDates={completedWorkoutDates}
-                    plannedWorkouts={plannedWorkouts}
-                />
-
-                <div className="card calendar-card">
-                    <div className="calendar-header">
-                        <h3>
-                            {monthName(now.getMonth())} {now.getFullYear()}
-                        </h3>
-                        <p>Plan a workout</p>
-                    </div>
-
-                    <div className="calendar-weekdays">
-                        {weekdayLabels.map((lbl, i) => (
-                            <span key={`${lbl}-${i}`}>{lbl}</span>
-                        ))}
-                    </div>
-
-                    <div className="calendar-days-grid">
-                        {calendarDates.map((day) => {
-                            const key = dateKey(day);
-                            const isSelected = selectedWorkoutDate === key;
-                            const hasPlan = Boolean(plannedWorkouts[key]);
-                            return (
-                                <button
-                                    key={key}
-                                    type="button"
-                                    className={`calendar-day-btn ${isSelected ? "selected" : ""} ${hasPlan ? "has-plan" : ""}`}
-                                    onClick={() => {
-                                        setSelectedWorkoutDate(key);
-                                        setPlannerDate(day);
-                                        setIsPlannerModalOpen(true);
-                                    }}>
-                                    {day.getDate()}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                <div className="card panel body-map-card">
-                    <h2>Body Map</h2>
-                    <div className="body-map-container">
-                        <BodyMap highlightedParts={bodyMapStatus} />
-                    </div>
-                </div>
-
-                <div className="card panel workout-presets-card">
-                    <h2>Workouts</h2>
-                    {Object.keys(quickStart).length === 0 ? (
-                        <p
-                            style={{
-                                color: "var(--color-muted)",
-                                fontSize: "0.85rem",
-                                textAlign: "center"
-                            }}>
-                            No workouts created yet.
-                        </p>
-                    ) : (
-                        Object.keys(quickStart).map((name) => (
-                            <div
-                                key={name}
-                                className="preset-tile"
-                                onClick={() => handleStartWorkout(name)}>
-                                <strong>{name}</strong>
-                                <button
-                                    type="button"
-                                    className="icon-button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setQuickStart((prev) => {
-                                            const updated = { ...prev };
-                                            delete updated[name];
-                                            return updated;
-                                        });
-                                    }}>
-                                    <MdClose />
-                                </button>
-                            </div>
-                        ))
-                    )}
-
-                    <button
-                        type="button"
-                        className="primary-button"
-                        style={{ marginTop: "8px" }}
-                        onClick={() => setIsBuilderModalOpen(true)}>
-                        <MdAdd /> Create workout
-                    </button>
-                    <button
-                        type="button"
-                        className="outlined-button"
-                        onClick={() => setIsQuickStartModalOpen(true)}>
-                        Edit Quick Start
-                    </button>
-                </div>
-            </>
-        );
-    }
-
-    function renderFoodTab() {
-        return (
-            <>
-                <div className="date-row" style={{ marginTop: "4px" }}>
-                    <h2>Daily Calories</h2>
-                    <span className="goal-pill">{goal}</span>
-                </div>
-
-                <div className="card panel food-macro-section">
-                    <div
-                        className="food-progress-ring"
-                        style={{
-                            background: `conic-gradient(#ce0e2d 0 ${Math.min(100, Math.round(calorieProgress * 100))}%, rgba(255,255,255,0.08) ${Math.min(100, Math.round(calorieProgress * 100))}% 100%)`
-                        }}>
-                        <div className="food-progress-ring-inner">
-                            <strong>{Math.round(caloriesLeft)} kcal</strong>
-                            <span>left</span>
-                        </div>
-                    </div>
-
-                    <div className="macro-column">
-                        <div className="macro-row">
-                            <span>Protein</span>
-                            <small>
-                                {Math.round(totalProtein)}/{Math.round(macroProteinTarget)}g
-                            </small>
-                        </div>
-                        <div className="macro-row">
-                            <span>Carbs</span>
-                            <small>
-                                {Math.round(totalCarbs)}/{Math.round(macroCarbTarget)}g
-                            </small>
-                        </div>
-                        <div className="macro-row">
-                            <span>Fats</span>
-                            <small>
-                                {Math.round(totalFat)}/{Math.round(macroFatTarget)}g
-                            </small>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="card panel food-log-card">
-                    <div className="food-log-header">
-                        <h2>Food Log</h2>
-                        <button
-                            type="button"
-                            className="add-circle-btn"
-                            onClick={() => {
-                                setFoodSheetInitialEntry(null);
-                                setIsFoodSheetOpen(true);
-                            }}>
-                            <MdAdd />
-                        </button>
-                    </div>
-
-                    {foodEntries.length === 0 ? (
-                        <p style={{ color: "var(--color-muted)", fontSize: "0.9rem" }}>
-                            No food items logged yet.
-                        </p>
-                    ) : (
-                        foodEntries.map((item, index) => (
-                            <div key={item.id || index} className="food-log-item">
-                                <button
-                                    type="button"
-                                    className="icon-button"
-                                    onClick={() => {
-                                        setFoodSheetInitialEntry({ ...item, index });
-                                        setIsFoodSheetOpen(true);
-                                    }}>
-                                    <MdEditNote />
-                                </button>
-                                <div className="food-log-item-content">
-                                    <div className="food-log-item-info">
-                                        <strong>{item.name}</strong>
-                                        <span>
-                                            {Math.round(item.calories)} kcal · P{" "}
-                                            {Math.round(item.protein)}g · C {Math.round(item.carbs)}
-                                            g · F {Math.round(item.fat)}g
-                                        </span>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="icon-button"
-                                        onClick={() =>
-                                            setFoodEntries((prev) =>
-                                                prev.filter((_, i) => i !== index)
-                                            )
-                                        }>
-                                        <MdClose />
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-
-                <div className="goal-toggle-row">
-                    {["Cut", "Maintain", "Bulk"].map((g) => (
-                        <button
-                            key={g}
-                            type="button"
-                            className={`goal-toggle-btn ${goal === g ? "active" : ""}`}
-                            onClick={() => setGoal(g)}>
-                            {g}
-                        </button>
-                    ))}
-                </div>
-            </>
-        );
-    }
-
-    function renderSettingsTab() {
-        return (
-            <>
-                <div className="card panel settings-group">
-                    <h2>Profile</h2>
-                    <label>
-                        <span>Name</span>
-                        <input
-                            value={profile.name}
-                            onChange={(e) => setProfile((p) => ({ ...p, name: e.target.value }))}
-                        />
-                    </label>
-                    <label>
-                        <span>Age</span>
-                        <input
-                            value={profile.age}
-                            onChange={(e) => setProfile((p) => ({ ...p, age: e.target.value }))}
-                        />
-                    </label>
-                    <div className="inline-input-group">
-                        <label>
-                            <span>Height</span>
-                            <input
-                                value={profile.heightValue}
-                                onChange={(e) =>
-                                    setProfile((p) => ({
-                                        ...p,
-                                        heightValue: parseNumeric(e.target.value)
-                                    }))
-                                }
-                            />
-                        </label>
-                        <select
-                            value={profile.heightUnit}
-                            onChange={(e) =>
-                                setProfile((p) => ({ ...p, heightUnit: e.target.value }))
-                            }>
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
-                    </div>
-                    <div className="inline-input-group">
-                        <label>
-                            <span>Weight</span>
-                            <input
-                                value={profile.weightValue}
-                                onChange={(e) =>
-                                    setProfile((p) => ({
-                                        ...p,
-                                        weightValue: parseNumeric(e.target.value)
-                                    }))
-                                }
-                            />
-                        </label>
-                        <select
-                            value={profile.weightUnit}
-                            onChange={(e) =>
-                                setProfile((p) => ({ ...p, weightUnit: e.target.value }))
-                            }>
-                            <option value="kg">kg</option>
-                            <option value="lbs">lbs</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div className="card panel settings-group">
-                    <h2>Body Metrics</h2>
-                    <label>
-                        <span>Sex</span>
-                        <select
-                            value={profile.sex}
-                            onChange={(e) => setProfile((p) => ({ ...p, sex: e.target.value }))}>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Activity Level</span>
-                        <select
-                            value={profile.activityLevel}
-                            onChange={(e) =>
-                                setProfile((p) => ({ ...p, activityLevel: e.target.value }))
-                            }>
-                            <option value="Sedentary">Sedentary</option>
-                            <option value="Light">Light</option>
-                            <option value="Moderate">Moderate</option>
-                            <option value="Active">Active</option>
-                            <option value="Extreme">Extreme</option>
-                        </select>
-                    </label>
-                </div>
-
-                <button
-                    type="button"
-                    className="primary-button"
-                    onClick={() => alert("Settings saved locally")}>
-                    Save Settings
-                </button>
-            </>
-        );
     }
 
     if (isLoading) return <AppLoadingScreen />;
@@ -1174,10 +590,60 @@ export default function App() {
                 </header>
 
                 <main className="content">
-                    {selectedTab === "Home" && renderHomeTab()}
-                    {selectedTab === "Workouts" && renderWorkoutsTab()}
-                    {selectedTab === "Food" && renderFoodTab()}
-                    {selectedTab === "Settings" && renderSettingsTab()}
+                    {selectedTab === "Home" && (
+                        <HomeTab
+                            profile={profile}
+                            totalCalories={totalCalories}
+                            calorieProgress={calorieProgress}
+                            waterConsumed={waterConsumed}
+                            waterGoal={waterGoal}
+                            quickStart={quickStart}
+                            dailyQuote={dailyQuote}
+                            completedWorkoutDates={completedWorkoutDates}
+                            plannedWorkouts={plannedWorkouts}
+                            handleStartWorkout={handleStartWorkout}
+                            setWaterConsumed={setWaterConsumed}
+                        />
+                    )}
+                    {selectedTab === "Workouts" && (
+                        <WorkoutsTab
+                            todayWorkoutName={todayWorkoutName}
+                            handleStartWorkout={handleStartWorkout}
+                            completedWorkoutDates={completedWorkoutDates}
+                            plannedWorkouts={plannedWorkouts}
+                            calendarDates={calendarDates}
+                            selectedWorkoutDate={selectedWorkoutDate}
+                            setSelectedWorkoutDate={setSelectedWorkoutDate}
+                            setPlannerDate={setPlannerDate}
+                            setIsPlannerModalOpen={setIsPlannerModalOpen}
+                            quickStart={quickStart}
+                            bodyMapStatus={bodyMapStatus}
+                            setQuickStart={setQuickStart}
+                            setIsBuilderModalOpen={setIsBuilderModalOpen}
+                            setIsQuickStartModalOpen={setIsQuickStartModalOpen}
+                        />
+                    )}
+                    {selectedTab === "Food" && (
+                        <FoodTab
+                            goal={goal}
+                            calorieProgress={calorieProgress}
+                            caloriesLeft={caloriesLeft}
+                            totalProtein={totalProtein}
+                            totalCarbs={totalCarbs}
+                            totalFat={totalFat}
+                            macroProteinTarget={macroProteinTarget}
+                            macroCarbTarget={macroCarbTarget}
+                            macroFatTarget={macroFatTarget}
+                            foodEntries={foodEntries}
+                            setFoodSheetInitialEntry={setFoodSheetInitialEntry}
+                            setIsFoodSheetOpen={setIsFoodSheetOpen}
+                            setFoodEntries={setFoodEntries}
+                            setGoal={setGoal}
+                        />
+                    )}
+                    {selectedTab === "Settings" && (
+                        <SettingsTab profile={profile} setProfile={setProfile} />
+                    )}
                 </main>
 
                 <nav className="bottom-nav">
@@ -1205,7 +671,9 @@ export default function App() {
                 <WorkoutDetailModal
                     workout={activeWorkoutModal}
                     onClose={() => setActiveWorkoutModal(null)}
-                    onComplete={handleCompleteWorkout}
+                    onComplete={(exercises) =>
+                        handleCompleteWorkout({ ...activeWorkoutModal, exercises })
+                    }
                 />
             )}
 
@@ -1340,9 +808,6 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
         });
     };
 
-    const displayNumericValue = (value, fallback = "0") =>
-        value === undefined || value === null ? fallback : value;
-
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="sheet-content" onClick={(e) => e.stopPropagation()}>
@@ -1461,18 +926,27 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
                                                 }}>
                                                 <input
                                                     type="text"
-                                                    value={set.weight ?? ex.weight ?? "0"}
+                                                    value={set.weight ?? ex.weight ?? ""}
                                                     onChange={(e) => {
                                                         const val = e.target.value;
                                                         setExercises((prev) => {
                                                             const updated = [...prev];
-                                                            updated[exIdx].setEntries[
-                                                                setIdx
-                                                            ].weight = val;
+                                                            updated[exIdx].setEntries[setIdx] = {
+                                                                ...updated[exIdx].setEntries[
+                                                                    setIdx
+                                                                ],
+                                                                weight: val,
+                                                                previousWeight: false
+                                                            };
                                                             return updated;
                                                         });
                                                     }}
-                                                    style={{ width: "80px" }}
+                                                    style={{
+                                                        width: "80px",
+                                                        color: set.previousWeight
+                                                            ? "var(--color-muted)"
+                                                            : "inherit"
+                                                    }}
                                                     placeholder="Weight"
                                                 />
                                                 <select
@@ -1497,17 +971,25 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
                                             </div>
                                             <input
                                                 type="text"
-                                                value={set.reps ?? "0"}
+                                                value={set.reps ?? ""}
                                                 onChange={(e) => {
                                                     const val = e.target.value;
                                                     setExercises((prev) => {
                                                         const updated = [...prev];
-                                                        updated[exIdx].setEntries[setIdx].reps =
-                                                            val;
+                                                        updated[exIdx].setEntries[setIdx] = {
+                                                            ...updated[exIdx].setEntries[setIdx],
+                                                            reps: val,
+                                                            previousReps: false
+                                                        };
                                                         return updated;
                                                     });
                                                 }}
-                                                style={{ width: "70px" }}
+                                                style={{
+                                                    width: "70px",
+                                                    color: set.previousReps
+                                                        ? "var(--color-muted)"
+                                                        : "inherit"
+                                                }}
                                                 placeholder="Reps"
                                             />
                                             <button
@@ -1532,7 +1014,7 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
                     type="button"
                     className="primary-button"
                     style={{ marginTop: "12px" }}
-                    onClick={onComplete}>
+                    onClick={() => onComplete(exercises)}>
                     Complete Workout
                 </button>
             </div>
@@ -1545,21 +1027,21 @@ function WorkoutBuilderModal({ onClose, onSave }) {
     const [exercises, setExercises] = useState([
         {
             name: "Bench Press",
-            weight: "80",
+            weight: "",
             setEntries: [
-                { weight: "80", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
-                { weight: "80", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
-                { weight: "80", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
-                { weight: "80", weightUnit: "kg", reps: "6", isWon: false, isComplete: false }
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false },
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false },
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false },
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false }
             ]
         },
         {
             name: "Rows",
-            weight: "60",
+            weight: "",
             setEntries: [
-                { weight: "60", weightUnit: "kg", reps: "10", isWon: false, isComplete: false },
-                { weight: "60", weightUnit: "kg", reps: "10", isWon: false, isComplete: false },
-                { weight: "60", weightUnit: "kg", reps: "8", isWon: false, isComplete: false }
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false },
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false },
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false }
             ]
         }
     ]);
@@ -1569,11 +1051,11 @@ function WorkoutBuilderModal({ onClose, onSave }) {
             ...prev,
             {
                 name: "New Exercise",
-                weight: "50",
+                weight: "",
                 setEntries: [
-                    { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
-                    { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false },
-                    { weight: "0", weightUnit: "kg", reps: "8", isWon: false, isComplete: false }
+                    { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false },
+                    { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false },
+                    { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false }
                 ]
             }
         ]);
@@ -1585,7 +1067,7 @@ function WorkoutBuilderModal({ onClose, onSave }) {
             const ex = { ...updated[exIndex] };
             ex.setEntries = [
                 ...(ex.setEntries || []),
-                { weight: "0", weightUnit: "kg", reps: "0", isWon: false, isComplete: false }
+                { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false }
             ];
             updated[exIndex] = ex;
             return updated;
@@ -1729,7 +1211,7 @@ function WorkoutBuilderModal({ onClose, onSave }) {
                                             type="text"
                                             value={
                                                 set.weight === undefined || set.weight === null
-                                                    ? "0"
+                                                    ? ""
                                                     : set.weight
                                             }
                                             onChange={(e) =>
@@ -1761,7 +1243,7 @@ function WorkoutBuilderModal({ onClose, onSave }) {
                                             type="text"
                                             value={
                                                 set.reps === undefined || set.reps === null
-                                                    ? "0"
+                                                    ? ""
                                                     : set.reps
                                             }
                                             onChange={(e) =>
@@ -1820,15 +1302,15 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
     const [selectedName, setSelectedName] = useState(() => Object.keys(quickStart || {})[0] || "");
     const [newWorkoutName, setNewWorkoutName] = useState("");
 
-    const normalizeSet = (set, fallbackWeight = "0") => ({
+    const normalizeSet = (set, fallbackWeight = "") => ({
         weight: set?.weight ?? fallbackWeight,
         weightUnit: set?.weightUnit || "kg",
-        reps: set?.reps ?? "0",
+        reps: set?.reps ?? "",
         isWon: !!set?.isWon,
         isComplete: !!set?.isComplete
     });
 
-    const normalizeExercise = (exercise, fallbackWeight = "50") => {
+    const normalizeExercise = (exercise, fallbackWeight = "") => {
         const weight = exercise?.weight ?? fallbackWeight;
         const setEntries =
             Array.isArray(exercise?.setEntries) && exercise.setEntries.length > 0
@@ -1853,12 +1335,12 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
             [name]: prev[name] || [
                 {
                     name: "New Exercise",
-                    weight: "50",
+                    weight: "",
                     setEntries: [
                         {
-                            weight: "50",
+                            weight: "",
                             weightUnit: "kg",
-                            reps: "0",
+                            reps: "",
                             isWon: false,
                             isComplete: false
                         }
@@ -1902,9 +1384,9 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
             const normalized = normalizeExercise(exList[exIdx]);
             const sets = [...normalized.setEntries];
             sets.push({
-                weight: "0",
+                weight: "",
                 weightUnit: "kg",
-                reps: "0",
+                reps: "",
                 isWon: false,
                 isComplete: false
             });
@@ -1927,9 +1409,9 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
                         ? sets
                         : [
                               {
-                                  weight: normalized.weight || "0",
+                                  weight: normalized.weight || "",
                                   weightUnit: "kg",
-                                  reps: "0",
+                                  reps: "",
                                   isWon: false,
                                   isComplete: false
                               }
@@ -1947,9 +1429,9 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
             const exList = [...(updated[selectedName] || [])];
             exList.push({
                 name: "New Exercise",
-                weight: "50",
+                weight: "",
                 setEntries: [
-                    { weight: "50", weightUnit: "kg", reps: "0", isWon: false, isComplete: false }
+                    { weight: "", weightUnit: "kg", reps: "", isWon: false, isComplete: false }
                 ]
             });
             updated[selectedName] = exList;
@@ -2063,7 +1545,7 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
                                         </span>
                                         <input
                                             type="text"
-                                            value={set.weight ?? "0"}
+                                            value={set.weight ?? ""}
                                             onChange={(e) =>
                                                 updateSetField(
                                                     idx,
@@ -2093,7 +1575,7 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
                                             type="text"
                                             value={
                                                 set.reps === undefined || set.reps === null
-                                                    ? "0"
+                                                    ? ""
                                                     : set.reps
                                             }
                                             onChange={(e) =>
