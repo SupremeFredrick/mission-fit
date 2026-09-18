@@ -86,7 +86,9 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
                                   currentWorkout,
                                 ),
                                 onComplete: () async {
-                                  await widget.parent._saveSettings();
+                                  await widget.parent.completeWorkoutForDate(
+                                    DateTime.now(),
+                                  );
                                 },
                               ),
                             ),
@@ -204,7 +206,7 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
                 ),
                 const SizedBox(height: 2),
                 const Text(
-                  'Plan a workout',
+                  'Tap a day to plan or log a workout',
                   style: TextStyle(
                     color: kMissionFitMuted,
                     fontSize: 13,
@@ -243,6 +245,7 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
                 final hasPlan = widget.parent._plannedWorkouts.containsKey(
                   widget.parent._dateKey(date),
                 );
+                final isCompleted = widget.parent.isWorkoutCompletedOn(date);
                 return Expanded(
                   child: InkWell(
                     onTap: () {
@@ -255,13 +258,15 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isSelected
+                        color: isCompleted
+                            ? kMissionFitAccent
+                            : isSelected
                             ? kMissionFitSecondary
                             : Colors.transparent,
                         border: Border.all(
-                          color: hasPlan
-                              ? kMissionFitAccent
-                              : Colors.transparent,
+                          color: isCompleted || !hasPlan
+                              ? Colors.transparent
+                              : kMissionFitAccent,
                           width: 1.2,
                         ),
                       ),
@@ -269,7 +274,11 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
                         child: Text(
                           '${date.day}',
                           style: TextStyle(
-                            color: isSelected ? Colors.white : kMissionFitMuted,
+                            color: isCompleted
+                                ? kMissionFitDominant
+                                : isSelected
+                                ? Colors.white
+                                : kMissionFitMuted,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -289,6 +298,13 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
   void _showWorkoutPlanner(DateTime date) {
     String? selectedWorkout =
         widget.parent._plannedWorkouts[widget.parent._dateKey(date)];
+    var isCompleted = widget.parent.isWorkoutCompletedOn(date);
+    final now = DateTime.now();
+    final isFuture = DateTime(
+      date.year,
+      date.month,
+      date.day,
+    ).isAfter(DateTime(now.year, now.month, now.day));
 
     showDialog<void>(
       context: context,
@@ -303,23 +319,40 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
             width: double.maxFinite,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: widget.parent._quickStartWorkoutNames
-                  .map(
-                    (workout) => CheckboxListTile(
-                      value: selectedWorkout == workout,
-                      activeColor: kMissionFitAccent,
-                      checkColor: kMissionFitDominant,
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(workout),
-                      controlAffinity: ListTileControlAffinity.trailing,
-                      onChanged: (selected) {
-                        setDialogState(() {
-                          selectedWorkout = selected == true ? workout : null;
-                        });
-                      },
-                    ),
-                  )
-                  .toList(),
+              children: [
+                CheckboxListTile(
+                  value: isCompleted,
+                  activeColor: kMissionFitAccent,
+                  checkColor: kMissionFitDominant,
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Workout completed'),
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  onChanged: isFuture
+                      ? null
+                      : (selected) {
+                          final completed = selected ?? false;
+                          setDialogState(() => isCompleted = completed);
+                          widget.parent.setWorkoutCompleted(date, completed);
+                        },
+                ),
+                if (widget.parent._quickStartWorkoutNames.isNotEmpty)
+                  const Divider(),
+                ...widget.parent._quickStartWorkoutNames.map(
+                  (workout) => CheckboxListTile(
+                    value: selectedWorkout == workout,
+                    activeColor: kMissionFitAccent,
+                    checkColor: kMissionFitDominant,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(workout),
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    onChanged: (selected) {
+                      setDialogState(() {
+                        selectedWorkout = selected == true ? workout : null;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           actions: [
@@ -327,6 +360,8 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
               onPressed: () {
                 if (selectedWorkout != null) {
                   widget.parent.planWorkout(date, selectedWorkout!);
+                } else {
+                  widget.parent.clearPlannedWorkout(date);
                 }
                 Navigator.pop(dialogContext);
               },
@@ -362,7 +397,9 @@ class _WorkoutsTabViewState extends State<WorkoutsTabView> {
                       workoutName: workout,
                       exercises: widget.parent.exercisesForWorkout(workout),
                       onComplete: () async {
-                        await widget.parent._saveSettings();
+                        await widget.parent.completeWorkoutForDate(
+                          DateTime.now(),
+                        );
                       },
                     ),
                   ),

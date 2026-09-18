@@ -31,6 +31,13 @@ class HomeTabLogic {
 
     var streak = 0;
     var cursor = DateTime.now();
+    // A streak stays alive until the end of the current day, so when today
+    // has no completed workout yet, count back from yesterday instead.
+    if (!normalized.contains(
+      DateTime(cursor.year, cursor.month, cursor.day),
+    )) {
+      cursor = cursor.subtract(const Duration(days: 1));
+    }
     while (normalized.contains(
       DateTime(cursor.year, cursor.month, cursor.day),
     )) {

@@ -228,6 +228,7 @@ class _AppLaunchGateState extends State<AppLaunchGate> {
     );
     await preferences.setStringList('mission_fit_quick_start', []);
     await preferences.setString('mission_fit_planned_workouts', '');
+    await preferences.setString('mission_fit_completed_workouts', '[]');
     await preferences.setString('mission_fit_food_entries', '[]');
     await preferences.setStringList('mission_fit_food_log', []);
     await preferences.setString('mission_fit_saved_meals', '[]');
@@ -695,6 +696,25 @@ class MissionFitHomeState extends State<MissionFitHome> {
         }
       }
 
+      final encodedCompletions = _preferences.getString(
+        'mission_fit_completed_workouts',
+      );
+      if (encodedCompletions != null && encodedCompletions.isNotEmpty) {
+        try {
+          final data = jsonDecode(encodedCompletions) as List<dynamic>;
+          _completedWorkoutDates
+            ..clear()
+            ..addAll(
+              data
+                  .map((item) => DateTime.tryParse(item.toString()))
+                  .whereType<DateTime>()
+                  .map((date) => DateTime(date.year, date.month, date.day)),
+            );
+        } catch (_) {
+          _completedWorkoutDates.clear();
+        }
+      }
+
       final encodedFood = _preferences.getString('mission_fit_food_entries');
       if (encodedFood != null && encodedFood.isNotEmpty) {
         try {
@@ -879,6 +899,10 @@ class MissionFitHomeState extends State<MissionFitHome> {
       jsonEncode(_plannedWorkouts),
     );
     await _preferences.setString(
+      'mission_fit_completed_workouts',
+      jsonEncode(_completedWorkoutDates.map(_dateKey).toList()),
+    );
+    await _preferences.setString(
       'mission_fit_food_entries',
       jsonEncode(_foodEntries.map((entry) => entry.toJson()).toList()),
     );
@@ -914,6 +938,40 @@ class MissionFitHomeState extends State<MissionFitHome> {
     });
     _saveSettings();
   }
+
+  void clearPlannedWorkout(DateTime date) {
+    if (!_plannedWorkouts.containsKey(_dateKey(date))) return;
+    setState(() {
+      _plannedWorkouts.remove(_dateKey(date));
+    });
+    _saveSettings();
+  }
+
+  bool isWorkoutCompletedOn(DateTime date) => _completedWorkoutDates.any(
+    (entry) =>
+        entry.year == date.year &&
+        entry.month == date.month &&
+        entry.day == date.day,
+  );
+
+  Future<void> setWorkoutCompleted(DateTime date, bool completed) async {
+    final normalized = DateTime(date.year, date.month, date.day);
+    setState(() {
+      _completedWorkoutDates.removeWhere(
+        (entry) =>
+            entry.year == normalized.year &&
+            entry.month == normalized.month &&
+            entry.day == normalized.day,
+      );
+      if (completed) {
+        _completedWorkoutDates.add(normalized);
+      }
+    });
+    await _saveSettings();
+  }
+
+  Future<void> completeWorkoutForDate(DateTime date) =>
+      setWorkoutCompleted(date, true);
 
   void adjustWaterConsumed(double change) {
     setState(() {
@@ -1080,6 +1138,8 @@ class MissionFitHomeState extends State<MissionFitHome> {
                         initialValue:
                             _quickStartWorkoutNames.contains(selectedWorkout)
                             ? selectedWorkout
+                            : _quickStartWorkoutNames.isEmpty
+                            ? null
                             : _quickStartWorkoutNames.first,
                         decoration: _quickStartFieldDecoration(),
                         items: _quickStartWorkoutNames

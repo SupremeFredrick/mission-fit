@@ -30,7 +30,9 @@ class HomeTabView extends StatefulWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(7, (index) {
+              final date = today.subtract(Duration(days: 6 - index));
               final isActive = active[index];
+              final isToday = index == 6;
               return Container(
                 width: 34,
                 height: 34,
@@ -38,13 +40,17 @@ class HomeTabView extends StatefulWidget {
                   shape: BoxShape.circle,
                   color: isActive ? kMissionFitAccent : kMissionFitSurfaceSoft,
                   border: Border.all(
-                    color: isActive ? kMissionFitLight : Colors.transparent,
+                    color: isActive
+                        ? kMissionFitLight
+                        : isToday
+                        ? kMissionFitSecondary
+                        : Colors.transparent,
                     width: 1.4,
                   ),
                 ),
                 child: Center(
                   child: Text(
-                    dayLabels[index],
+                    dayLabels[date.weekday % 7],
                     style: TextStyle(
                       color: isActive ? kMissionFitDominant : kMissionFitMuted,
                       fontWeight: FontWeight.w700,
@@ -327,7 +333,9 @@ class _HomeTabViewState extends State<HomeTabView> {
                         workoutName: label,
                         exercises: widget.parent._exercises,
                         onComplete: () async {
-                          await widget.parent._saveSettings();
+                          await widget.parent.completeWorkoutForDate(
+                            DateTime.now(),
+                          );
                         },
                       ),
                     ),
