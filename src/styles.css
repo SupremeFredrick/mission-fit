@@ -150,24 +150,18 @@ label {
 }
 
 .missionfit-app {
-    min-height: 100dvh;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 24px 12px;
     background: var(--color-dominant);
 }
 
-.phone-shell {
-    width: min(100%, 480px);
-    height: min(880px, calc(100dvh - 32px));
+.app-shell {
+    width: min(100%, 1200px);
+    min-height: 100vh;
     background: var(--color-dominant);
-    border: 1px solid var(--color-border);
-    border-radius: 28px;
-    box-shadow: var(--shadow-strong);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     position: relative;
 }
 
@@ -175,19 +169,10 @@ label {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 20px 12px;
-    padding-top: max(16px, calc(16px + env(safe-area-inset-top, 0px)));
+    padding: 12px 32px;
     background: var(--color-dominant);
     flex-shrink: 0;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.topbar-center {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .brand-wrap {
@@ -223,13 +208,10 @@ label {
 
 .content {
     flex: 1;
-    min-height: 0;
-    padding: 0 20px 20px;
+    padding: 24px 32px 32px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
 }
 
 .card {
@@ -802,53 +784,48 @@ h2 {
     align-items: end;
 }
 
-.bottom-nav {
+.main-nav {
     flex-shrink: 0;
-    position: sticky;
-    bottom: 0;
-    z-index: 10;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
-    padding: 8px 12px max(12px, env(safe-area-inset-bottom, 12px));
+    gap: 8px;
+    padding: 8px 32px;
     background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .nav-item {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
     background: transparent;
-    color: var(--color-white);
-    font-size: 0.72rem;
-    font-weight: 500;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
 }
 
 .nav-indicator {
-    width: 60px;
-    height: 30px;
-    border-radius: 16px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
-    color: var(--color-white);
-    transition:
-        background-color 0.2s,
-        color 0.2s;
+    font-size: 1.15rem;
 }
 
-.nav-item.active .nav-indicator {
-    background: var(--color-accent);
-    color: var(--color-dominant);
+.nav-item.active {
+    background: var(--color-surface-soft);
+    color: var(--color-white);
 }
 
 .nav-item span {
-    color: var(--color-white);
+    color: inherit;
 }
 
 .modal-overlay {
@@ -857,23 +834,21 @@ h2 {
     background: rgba(0, 0, 0, 0.75);
     z-index: 100;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
 }
 
 .sheet-content {
-    width: min(100%, 500px);
+    width: min(calc(100% - 32px), 700px);
     max-height: 85vh;
     background: var(--color-dominant);
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
+    border-radius: 20px;
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     overflow-y: auto;
     border: 1px solid var(--color-border);
-    border-bottom: none;
 }
 
 .dialog-content {
@@ -980,20 +955,18 @@ h2 {
     font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 480px) {
-    .missionfit-app {
-        padding: 0;
+@media (max-width: 600px) {
+    .topbar,
+    .main-nav {
+        padding-right: 16px;
+        padding-left: 16px;
     }
 
-    .phone-shell {
-        width: 100%;
-        height: 100vh;
-        height: 100dvh;
-        border-radius: 0;
-        border: none;
+    .main-nav {
+        flex-wrap: wrap;
     }
 
-    .topbar {
-        padding-top: max(16px, calc(16px + env(safe-area-inset-top, 0px)));
+    .content {
+        padding: 20px 16px 24px;
     }
 }

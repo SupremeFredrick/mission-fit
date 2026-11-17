@@ -1,0 +1,3502 @@
+[
+  {
+    "id": 1,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 2,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 3,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 4,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 5,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 6,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 7,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 8,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 9,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 10,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 11,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 12,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 13,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 14,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 15,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 16,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 17,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 18,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 19,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 20,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 21,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 22,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 23,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 24,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 25,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 26,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 27,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 28,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 29,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 30,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 31,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 32,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 33,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 34,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 35,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 36,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 37,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 38,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 39,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 40,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 41,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 42,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 43,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 44,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 45,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 46,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 47,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 48,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 49,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 50,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 51,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 52,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 53,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 54,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 55,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 56,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 57,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 58,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 59,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 60,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 61,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 62,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 63,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 64,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 65,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 66,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 67,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 68,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 69,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 70,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 71,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 72,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 73,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 74,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 75,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 76,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 77,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 78,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 79,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 80,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 81,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 82,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 83,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 84,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 85,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 86,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 87,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 88,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 89,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 90,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 91,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 92,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 93,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 94,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 95,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 96,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 97,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 98,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 99,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 100,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 101,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 102,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 103,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 104,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 105,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 106,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 107,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 108,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 109,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 110,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 111,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 112,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 113,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 114,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 115,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 116,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 117,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 118,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 119,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 120,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 121,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 122,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 123,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 124,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 125,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 126,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 127,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 128,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 129,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 130,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 131,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 132,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 133,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 134,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 135,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 136,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 137,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 138,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 139,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 140,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 141,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 142,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 143,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 144,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 145,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 146,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 147,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 148,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 149,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 150,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 151,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 152,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 153,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 154,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 155,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 156,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 157,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 158,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 159,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 160,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 161,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "Surpass your limits right here, right now, and prove everyone wrong who ever doubted your path.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 162,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "A dropout will beat a genius through raw hard work, relentless persistence, and unwavering effort.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 163,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "Power does not come from desire alone; it comes in direct response to an absolute, unyielding need.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 164,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Human beings are strong because we possess the extraordinary capability to change and rebuild ourselves.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 165,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "If you do nothing when facing a wall, you will remain trapped in the exact same place forever.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 166,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "When you hit your limit, remember why you started and let that purpose push you beyond your boundaries.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 167,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Pain is the ultimate teacher. You cannot gain true strength without sacrificing comfort and security.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 168,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "The difference between a novice and a master is that the master has failed more times than the beginner has tried.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 169,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "My magic is never giving up, no matter how steep the mountain or how dark the night becomes.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 170,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "Stand firm when the world pushes against you. Winners forge their own strength out of hardship.",
+    "category": "Overcoming Limits & Hard Work"
+  },
+  {
+    "id": 171,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 172,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 173,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 174,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 175,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 176,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 177,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 178,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 179,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 180,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 181,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 182,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 183,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 184,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 185,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 186,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 187,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 188,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 189,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 190,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 191,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 192,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 193,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 194,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 195,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 196,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 197,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 198,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 199,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 200,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 201,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 202,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 203,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 204,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 205,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 206,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 207,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 208,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 209,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 210,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 211,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 212,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 213,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 214,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 215,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 216,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 217,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 218,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 219,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 220,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 221,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 222,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 223,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 224,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 225,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 226,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 227,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 228,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 229,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 230,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 231,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 232,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 233,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 234,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 235,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 236,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 237,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 238,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 239,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 240,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 241,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 242,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 243,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 244,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 245,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 246,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 247,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 248,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 249,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 250,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 251,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 252,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 253,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 254,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 255,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 256,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 257,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 258,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 259,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 260,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 261,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 262,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 263,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 264,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 265,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 266,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 267,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 268,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 269,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 270,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 271,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 272,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 273,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 274,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 275,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 276,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 277,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 278,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 279,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 280,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 281,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 282,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 283,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 284,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 285,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 286,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 287,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 288,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 289,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 290,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 291,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 292,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 293,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 294,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 295,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 296,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 297,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 298,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 299,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 300,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 301,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 302,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 303,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 304,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 305,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 306,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 307,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 308,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 309,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 310,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 311,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 312,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 313,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 314,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 315,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 316,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 317,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 318,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 319,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 320,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 321,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 322,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 323,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 324,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 325,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 326,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 327,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 328,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 329,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 330,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 331,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "If you don't take risks in this life, you can never hope to create a future worth living.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 332,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "No matter how devastating the blows may be, you have no choice but to stand up and keep moving forward.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 333,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "The exact moment you feel like giving up is the moment you must remember why you held on for so long.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 334,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Even if failure seems inevitable, giving up is never an option. Stand your ground and fight.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 335,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "When the world shoves you around, push back with everything you have. Excuses won't save anyone.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 336,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "Regret only dulls your future choices. Make your decision, stand by it, and take control of your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 337,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "Real growth happens when you overcome hardship independently and take responsibility for your destiny.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 338,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "You yourself have to change first, or absolutely nothing in your environment will ever change for you.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 339,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "Believe in the vision of who you can become, even when current circumstances tell you otherwise.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 340,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "The future belongs entirely to those who possess the courage and conviction to chase their vision.",
+    "category": "Mindset & Determination"
+  },
+  {
+    "id": 341,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 342,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 343,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 344,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 345,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 346,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 347,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 348,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 349,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 350,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 351,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 352,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 353,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 354,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 355,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 356,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 357,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 358,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 359,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 360,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 361,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 362,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 363,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 364,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 365,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 366,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 367,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 368,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 369,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 370,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 371,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 372,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 373,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 374,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 375,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 376,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 377,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 378,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 379,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 380,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 381,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 382,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 383,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 384,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 385,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 386,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 387,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 388,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 389,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 390,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 391,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 392,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 393,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 394,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 395,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 396,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 397,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 398,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 399,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 400,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 401,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 402,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 403,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 404,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 405,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 406,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 407,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 408,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 409,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 410,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 411,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 412,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 413,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 414,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 415,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 416,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 417,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 418,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 419,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 420,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 421,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 422,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 423,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 424,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 425,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 426,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 427,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 428,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 429,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 430,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 431,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 432,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 433,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 434,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 435,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 436,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 437,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 438,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 439,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 440,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 441,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 442,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 443,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 444,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 445,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 446,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 447,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 448,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 449,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 450,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 451,
+    "character": "Shoyo Hinata",
+    "anime": "Haikyuu!!",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 452,
+    "character": "Roronoa Zoro",
+    "anime": "One Piece",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 453,
+    "character": "Izuku Midoriya",
+    "anime": "My Hero Academia",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 454,
+    "character": "Eren Yeager",
+    "anime": "Attack on Titan",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 455,
+    "character": "Rengoku Kyojuro",
+    "anime": "Demon Slayer",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 456,
+    "character": "Kamina",
+    "anime": "Gurren Lagann",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 457,
+    "character": "Simon",
+    "anime": "Gurren Lagann",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 458,
+    "character": "Mirio Togata",
+    "anime": "My Hero Academia",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 459,
+    "character": "Kagami Taiga",
+    "anime": "Kuroko's Basketball",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 460,
+    "character": "Natsu Dragneel",
+    "anime": "Fairy Tail",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 461,
+    "character": "Tanjiro Kamado",
+    "anime": "Demon Slayer",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 462,
+    "character": "Erza Scarlet",
+    "anime": "Fairy Tail",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 463,
+    "character": "Kenpachi Zaraki",
+    "anime": "Bleach",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 464,
+    "character": "Baki Hanma",
+    "anime": "Baki",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 465,
+    "character": "Tien Shinhan",
+    "anime": "Dragon Ball Z",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 466,
+    "character": "Monkey D. Luffy",
+    "anime": "One Piece",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 467,
+    "character": "Gintoki Sakata",
+    "anime": "Gintama",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 468,
+    "character": "Shota Aizawa",
+    "anime": "My Hero Academia",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 469,
+    "character": "Daichi Sawamura",
+    "anime": "Haikyuu!!",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 470,
+    "character": "Kageyama Tobio",
+    "anime": "Haikyuu!!",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 471,
+    "character": "Satoru Gojo",
+    "anime": "Jujutsu Kaisen",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 472,
+    "character": "Yuji Itadori",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 473,
+    "character": "Megumi Fushiguro",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 474,
+    "character": "Maki Zenin",
+    "anime": "Jujutsu Kaisen",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 475,
+    "character": "Roy Mustang",
+    "anime": "Fullmetal Alchemist",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 476,
+    "character": "Levi Ackerman",
+    "anime": "Attack on Titan",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 477,
+    "character": "Erwin Smith",
+    "anime": "Attack on Titan",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 478,
+    "character": "L Lawliet",
+    "anime": "Death Note",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 479,
+    "character": "Light Yagami",
+    "anime": "Death Note",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 480,
+    "character": "Spike Spiegel",
+    "anime": "Cowboy Bebop",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 481,
+    "character": "Mugen",
+    "anime": "Samurai Champloo",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 482,
+    "character": "Jin",
+    "anime": "Samurai Champloo",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 483,
+    "character": "Kenshin Himura",
+    "anime": "Rurouni Kenshin",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 484,
+    "character": "Vash the Stampede",
+    "anime": "Trigun",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 485,
+    "character": "Alucard",
+    "anime": "Hellsing",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 486,
+    "character": "Guts",
+    "anime": "Berserk",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 487,
+    "character": "Griffith",
+    "anime": "Berserk",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 488,
+    "character": "Thorfinn",
+    "anime": "Vinland Saga",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 489,
+    "character": "Thors",
+    "anime": "Vinland Saga",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 490,
+    "character": "Askeladd",
+    "anime": "Vinland Saga",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 491,
+    "character": "Rock Lee",
+    "anime": "Naruto",
+    "quote": "There is nothing more cruel than letting a noble dream end halfway through due to lack of vision.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 492,
+    "character": "Goku",
+    "anime": "Dragon Ball Z",
+    "quote": "Victory is impossible if you don't genuinely believe in your capacity to win before you even start.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 493,
+    "character": "Saitama",
+    "anime": "One Punch Man",
+    "quote": "Light and shadow coexist in every journey; learn to navigate both to reach true mastery.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 494,
+    "character": "Might Guy",
+    "anime": "Naruto",
+    "quote": "Winning requires an entirely different mindset than simply trying to avoid losing.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 495,
+    "character": "Yami Sukehiro",
+    "anime": "Black Clover",
+    "quote": "Those who are unwilling to sacrifice something important can never hope to change anything around them.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 496,
+    "character": "All Might",
+    "anime": "My Hero Academia",
+    "quote": "True growth requires honesty with oneself. Facing harsh truths is the first step toward evolution.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 497,
+    "character": "Edward Elric",
+    "anime": "Fullmetal Alchemist",
+    "quote": "The only choice we have is to act decisively so that we never look back with regret.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 498,
+    "character": "Asta",
+    "anime": "Black Clover",
+    "quote": "A vision without continuous daily evolution is just a wish. Build your capability step by step.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 499,
+    "character": "Vegeta",
+    "anime": "Dragon Ball Z",
+    "quote": "As long as you refuse to surrender, the probability of reaching your ultimate goal never drops to zero.",
+    "category": "Continuous Growth & Vision"
+  },
+  {
+    "id": 500,
+    "character": "Ippo Makunouchi",
+    "anime": "Hajime no Ippo",
+    "quote": "Focus your vision on continuous improvement, and the results will naturally follow your dedication.",
+    "category": "Continuous Growth & Vision"
+  }
+]

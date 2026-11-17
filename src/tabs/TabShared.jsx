@@ -1,4 +1,5 @@
 import React from "react";
+import { calculateWeekActivity, calculateWorkoutStreak } from "./streak.mjs";
 
 export function MetricCard({ title, value, suffix, progress, accent, controls }) {
     const percent = Math.min(100, Math.max(0, Math.round((progress || 0) * 100)));
@@ -129,17 +130,6 @@ export function BodyMap({ highlightedParts = {} }) {
     );
 }
 
-export function calculateWeekActivity(today, completedDates) {
-    const uniqueKeys = new Set(
-        (completedDates || []).map((date) => new Date(date).toISOString().slice(0, 10))
-    );
-    return Array.from({ length: 7 }, (_, index) => {
-        const date = new Date(today);
-        date.setDate(today.getDate() - (6 - index));
-        return uniqueKeys.has(date.toISOString().slice(0, 10));
-    });
-}
-
 export function calculateBodyMapStatus(quickStart) {
     const map = { Chest: false, Back: false, Legs: false, Core: false, Shoulders: false };
     const allExercises = Object.values(quickStart || {}).flat();
@@ -196,37 +186,6 @@ export function calculateBodyMapStatus(quickStart) {
     }
 
     return map;
-}
-
-export function calculateWorkoutStreak(completedDates, plannedWorkouts = {}) {
-    const validDays = new Set();
-
-    (completedDates || []).forEach((date) => {
-        validDays.add(new Date(date).toISOString().slice(0, 10));
-    });
-
-    Object.entries(plannedWorkouts || {}).forEach(([date, workoutName]) => {
-        if (workoutName === "Rest day") {
-            validDays.add(new Date(date).toISOString().slice(0, 10));
-        }
-    });
-
-    if (validDays.size === 0) return 0;
-
-    const cursor = new Date();
-    cursor.setHours(0, 0, 0, 0);
-
-    if (!validDays.has(cursor.toISOString().slice(0, 10))) {
-        cursor.setDate(cursor.getDate() - 1);
-    }
-
-    let streak = 0;
-    while (validDays.has(cursor.toISOString().slice(0, 10))) {
-        streak += 1;
-        cursor.setDate(cursor.getDate() - 1);
-    }
-
-    return streak >= 2 ? streak : 0;
 }
 
 export function StreakCard({ completedDates, plannedWorkouts }) {

@@ -16,11 +16,21 @@ import {
     MdRadioButtonUnchecked
 } from "react-icons/md";
 import logo from "./assets/mission_fit_logo.png";
+import animeQuotes from "./assets/anime_quotes_dataset.json";
 import HomeTab from "./tabs/HomeTab";
 import WorkoutsTab from "./tabs/WorkoutsTab";
 import FoodTab from "./tabs/FoodTab";
 import SettingsTab from "./tabs/SettingsTab";
 import { calculateBodyMapStatus } from "./tabs/TabShared";
+import { getWorkoutDateKey } from "./tabs/streak.mjs";
+import { isCompleteWorkoutInput, normalizeWorkoutInput } from "./tabs/workoutInput.mjs";
+import {
+    createWeeklyQuoteSchedule,
+    getDailyQuoteForDate,
+    getQuoteWeekStart,
+    getUniqueQuotePool,
+    isValidWeeklyQuoteSchedule
+} from "./tabs/quoteSchedule.mjs";
 
 const STORAGE_KEY = "mission_fit_web_state_v4";
 const ONBOARDING_COMPLETE_KEY = "mission_fit_onboarding_complete";
@@ -48,19 +58,7 @@ const defaultFoodEntries = [
 ];
 
 const defaultSavedMeals = [];
-
-const fallbackQuotes = [
-    { text: "The impediment to action advances action. What stands in the way becomes the way.", author: "Marcus Aurelius" },
-    { text: "You have power over your mind — not outside events. Realize this, and you will find strength.", author: "Marcus Aurelius" },
-    { text: "It is not that we have a short time to live, but that we waste a great deal of it.", author: "Seneca" },
-    { text: "No man is free who is not master of himself.", author: "Epictetus" },
-    { text: "We suffer more often in imagination than in reality.", author: "Seneca" },
-    { text: "First say to yourself what you would be; and then do what you have to do.", author: "Epictetus" },
-    { text: "The best revenge is not to be like your enemy.", author: "Marcus Aurelius" },
-    { text: "Difficulties strengthen the mind, as labor does the body.", author: "Seneca" },
-    { text: "He who is brave is free.", author: "Seneca" },
-    { text: "Don't explain your philosophy. Embody it.", author: "Epictetus" }
-];
+const animeQuotePool = getUniqueQuotePool(animeQuotes);
 
 function dateKey(date) {
     const year = date.getFullYear();
@@ -174,6 +172,35 @@ function calculateWaterGoal(profile) {
     const result =
         weightKg * 0.033 + activityAdjustment + sexAdjustment + heightAdjustment + ageAdjustment;
     return Math.min(5.0, Math.max(1.5, result));
+}
+
+function WorkoutSetField({ value, onChange, placeholder, style, clearOnFocus = false }) {
+    const storedValue = String(value ?? "");
+    const [draft, setDraft] = useState(storedValue);
+
+    useEffect(() => {
+        setDraft(storedValue);
+    }, [storedValue]);
+
+    return (
+        <input
+            type="text"
+            value={draft}
+            onFocus={() => {
+                if (clearOnFocus) setDraft("");
+            }}
+            onChange={(event) => {
+                const nextValue = normalizeWorkoutInput(event.target.value);
+                if (nextValue === null) return;
+
+                setDraft(nextValue);
+                if (isCompleteWorkoutInput(nextValue)) onChange(nextValue);
+            }}
+            onBlur={() => setDraft(storedValue)}
+            placeholder={placeholder}
+            style={style}
+        />
+    );
 }
 
 function AppLoadingScreen() {
@@ -328,9 +355,10 @@ export default function App() {
     const [completedWorkoutData, setCompletedWorkoutData] = useState({});
     const [selectedTab, setSelectedTab] = useState("Home");
     const [selectedWorkoutDate, setSelectedWorkoutDate] = useState(dateKey(new Date()));
-    // Empty initial date forces a quote fetch on first load instead of
-    // settling for the hardcoded default quote.
-    const [dailyQuoteDate, setDailyQuoteDate] = useState("");
+    const [quoteState, setQuoteState] = useState(() => {
+        const date = dateKey(new Date());
+        return { date, schedule: createWeeklyQuoteSchedule(date, animeQuotePool) };
+    });
 
     // Active Modals / Sheets
     const [activeWorkoutModal, setActiveWorkoutModal] = useState(null); // { name, exercises }
@@ -341,11 +369,11 @@ export default function App() {
     const [isPlannerModalOpen, setIsPlannerModalOpen] = useState(false);
     const [plannerDate, setPlannerDate] = useState(new Date());
 
-    // Daily quote
-    const [dailyQuote, setDailyQuote] = useState({
-        text: "The impediment to action advances action. What stands in the way becomes the way.",
-        author: "Marcus Aurelius"
-    });
+    const dailyQuote = getDailyQuoteForDate(
+        quoteState.date,
+        quoteState.schedule,
+        animeQuotePool
+    );
 
     // Load initial stored state
     useEffect(() => {
@@ -364,9 +392,17 @@ export default function App() {
                     setCompletedWorkoutDates(parsed.completedWorkoutDates);
                 if (parsed.completedWorkoutData)
                     setCompletedWorkoutData(parsed.completedWorkoutData);
-                if (parsed.dailyQuote?.date && parsed.dailyQuote?.quote) {
-                    setDailyQuoteDate(parsed.dailyQuote.date);
-                    setDailyQuote(parsed.dailyQuote.quote);
+                if (
+                    isValidWeeklyQuoteSchedule(
+                        parsed.quoteSchedule,
+                        dateKey(new Date()),
+                        animeQuotePool
+                    )
+                ) {
+                    setQuoteState((current) => ({
+                        ...current,
+                        schedule: parsed.quoteSchedule
+                    }));
                 }
             }
         } catch (_) {}
@@ -387,10 +423,7 @@ export default function App() {
             quickStart,
             completedWorkoutDates,
             completedWorkoutData,
-            dailyQuote: {
-                date: dailyQuoteDate,
-                quote: dailyQuote
-            }
+            quoteSchedule: quoteState.schedule
         };
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     }, [
@@ -403,55 +436,32 @@ export default function App() {
         quickStart,
         completedWorkoutDates,
         completedWorkoutData,
-        dailyQuote,
-        dailyQuoteDate,
+        quoteState,
         isLoading
     ]);
 
-    // Daily Stoic quote fetch
+    // Keep the weekly quote schedule in sync with the local date.
     useEffect(() => {
-        let cancelled = false;
-
-        // Deterministic per-day pick from the local pool so the quote still
-        // rotates daily even when the API is unreachable.
-        function fallbackQuoteFor(dateString) {
-            const daysSinceEpoch = Math.floor(
-                new Date(`${dateString}T00:00:00`).getTime() / 86400000
-            );
-            const index = Math.abs(daysSinceEpoch) % fallbackQuotes.length;
-            return fallbackQuotes[index];
-        }
-
-        async function ensureQuoteForToday() {
+        function updateQuoteForToday() {
             const todayKey = dateKey(new Date());
-            if (dailyQuoteDate === todayKey) return;
-            try {
-                const response = await fetch("https://stoic.tekloon.net/stoic-quote");
-                if (!response.ok) throw new Error("Quote request failed");
-                const payload = await response.json();
-                if (payload?.data?.quote && payload?.data?.author) {
-                    if (cancelled) return;
-                    setDailyQuote({ text: payload.data.quote, author: payload.data.author });
-                    setDailyQuoteDate(todayKey);
-                    return;
+            setQuoteState((current) => {
+                const weekStart = getQuoteWeekStart(todayKey);
+                if (current.date === todayKey && current.schedule.weekStart === weekStart) {
+                    return current;
                 }
-                throw new Error("Quote payload invalid");
-            } catch (_) {
-                if (cancelled) return;
-                setDailyQuote(fallbackQuoteFor(todayKey));
-                setDailyQuoteDate(todayKey);
-            }
+
+                const schedule =
+                    current.schedule.weekStart === weekStart
+                        ? current.schedule
+                        : createWeeklyQuoteSchedule(todayKey, animeQuotePool);
+                return { date: todayKey, schedule };
+            });
         }
 
-        ensureQuoteForToday();
-        // Re-check periodically so the quote rotates at midnight even if the
-        // app stays open across days.
-        const rolloverCheck = window.setInterval(ensureQuoteForToday, 60000);
-        return () => {
-            cancelled = true;
-            window.clearInterval(rolloverCheck);
-        };
-    }, [dailyQuoteDate]);
+        updateQuoteForToday();
+        const rolloverCheck = window.setInterval(updateQuoteForToday, 60000);
+        return () => window.clearInterval(rolloverCheck);
+    }, []);
 
     // Calculations
     const calorieGoal = useMemo(() => calculateCalorieGoal(profile, goal), [profile, goal]);
@@ -536,9 +546,9 @@ export default function App() {
     }
 
     function handleCompleteWorkout(workout) {
-        const today = new Date();
+        const today = getWorkoutDateKey(new Date());
         setCompletedWorkoutDates((current) => {
-            const exists = current.some((d) => dateKey(new Date(d)) === dateKey(today));
+            const exists = current.some((date) => getWorkoutDateKey(date) === today);
             return exists ? current : [...current, today];
         });
         if (workout) {
@@ -576,18 +586,34 @@ export default function App() {
 
     return (
         <div className="missionfit-app">
-            <div className="phone-shell">
+            <div className="app-shell">
                 <header className="topbar">
-                    <div style={{ width: "38px" }} />
-                    <div className="topbar-center">
-                        <div className="brand-wrap">
-                            <img src={logo} alt="Mission Fit logo" className="brand-logo" />
-                        </div>
+                    <div className="brand-wrap">
+                        <img src={logo} alt="Mission Fit logo" className="brand-logo" />
                     </div>
                     <button type="button" className="icon-button" aria-label="Sync">
                         <MdSync />
                     </button>
                 </header>
+
+                <nav className="main-nav">
+                    {navItems.map((item, index) => {
+                        const Icon = navIcons[index];
+                        const isActive = selectedTab === item;
+                        return (
+                            <button
+                                key={item}
+                                type="button"
+                                className={`nav-item ${isActive ? "active" : ""}`}
+                                onClick={() => setSelectedTab(item)}>
+                                <div className="nav-indicator">
+                                    <Icon />
+                                </div>
+                                <span>{item}</span>
+                            </button>
+                        );
+                    })}
+                </nav>
 
                 <main className="content">
                     {selectedTab === "Home" && (
@@ -645,25 +671,6 @@ export default function App() {
                         <SettingsTab profile={profile} setProfile={setProfile} />
                     )}
                 </main>
-
-                <nav className="bottom-nav">
-                    {navItems.map((item, index) => {
-                        const Icon = navIcons[index];
-                        const isActive = selectedTab === item;
-                        return (
-                            <button
-                                key={item}
-                                type="button"
-                                className={`nav-item ${isActive ? "active" : ""}`}
-                                onClick={() => setSelectedTab(item)}>
-                                <div className="nav-indicator">
-                                    <Icon />
-                                </div>
-                                <span>{item}</span>
-                            </button>
-                        );
-                    })}
-                </nav>
             </div>
 
             {/* Active Workout Detail Modal */}
@@ -924,20 +931,25 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
                                                     alignItems: "center",
                                                     gap: "6px"
                                                 }}>
-                                                <input
-                                                    type="text"
-                                                    value={set.weight ?? ex.weight ?? ""}
-                                                    onChange={(e) => {
-                                                        const val = e.target.value;
+                                                <WorkoutSetField
+                                                    value={set.weight ?? ex.weight}
+                                                    clearOnFocus={set.previousWeight}
+                                                    onChange={(value) => {
                                                         setExercises((prev) => {
                                                             const updated = [...prev];
-                                                            updated[exIdx].setEntries[setIdx] = {
-                                                                ...updated[exIdx].setEntries[
-                                                                    setIdx
-                                                                ],
-                                                                weight: val,
+                                                            const exercise = {
+                                                                ...updated[exIdx]
+                                                            };
+                                                            const sets = [
+                                                                ...exercise.setEntries
+                                                            ];
+                                                            sets[setIdx] = {
+                                                                ...sets[setIdx],
+                                                                weight: value,
                                                                 previousWeight: false
                                                             };
+                                                            exercise.setEntries = sets;
+                                                            updated[exIdx] = exercise;
                                                             return updated;
                                                         });
                                                     }}
@@ -969,18 +981,23 @@ function WorkoutDetailModal({ workout, onClose, onComplete }) {
                                                     <option value="lbs">lb</option>
                                                 </select>
                                             </div>
-                                            <input
-                                                type="text"
-                                                value={set.reps ?? ""}
-                                                onChange={(e) => {
-                                                    const val = e.target.value;
+                                            <WorkoutSetField
+                                                value={set.reps}
+                                                clearOnFocus={set.previousReps}
+                                                onChange={(value) => {
                                                     setExercises((prev) => {
                                                         const updated = [...prev];
-                                                        updated[exIdx].setEntries[setIdx] = {
-                                                            ...updated[exIdx].setEntries[setIdx],
-                                                            reps: val,
+                                                        const exercise = {
+                                                            ...updated[exIdx]
+                                                        };
+                                                        const sets = [...exercise.setEntries];
+                                                        sets[setIdx] = {
+                                                            ...sets[setIdx],
+                                                            reps: value,
                                                             previousReps: false
                                                         };
+                                                        exercise.setEntries = sets;
+                                                        updated[exIdx] = exercise;
                                                         return updated;
                                                     });
                                                 }}
@@ -1207,19 +1224,14 @@ function WorkoutBuilderModal({ onClose, onSave }) {
                                             }}>
                                             Set {setIndex + 1}
                                         </span>
-                                        <input
-                                            type="text"
-                                            value={
-                                                set.weight === undefined || set.weight === null
-                                                    ? ""
-                                                    : set.weight
-                                            }
-                                            onChange={(e) =>
+                                        <WorkoutSetField
+                                            value={set.weight}
+                                            onChange={(value) =>
                                                 updateSetField(
                                                     exIndex,
                                                     setIndex,
                                                     "weight",
-                                                    e.target.value
+                                                    value
                                                 )
                                             }
                                             style={{ width: "64px", textAlign: "center" }}
@@ -1239,20 +1251,10 @@ function WorkoutBuilderModal({ onClose, onSave }) {
                                             <option value="kg">kg</option>
                                             <option value="lbs">lbs</option>
                                         </select>
-                                        <input
-                                            type="text"
-                                            value={
-                                                set.reps === undefined || set.reps === null
-                                                    ? ""
-                                                    : set.reps
-                                            }
-                                            onChange={(e) =>
-                                                updateSetField(
-                                                    exIndex,
-                                                    setIndex,
-                                                    "reps",
-                                                    e.target.value
-                                                )
+                                        <WorkoutSetField
+                                            value={set.reps}
+                                            onChange={(value) =>
+                                                updateSetField(exIndex, setIndex, "reps", value)
                                             }
                                             style={{ width: "54px", textAlign: "center" }}
                                             placeholder="Reps"
@@ -1543,16 +1545,10 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
                                             }}>
                                             Set {setIdx + 1}
                                         </span>
-                                        <input
-                                            type="text"
-                                            value={set.weight ?? ""}
-                                            onChange={(e) =>
-                                                updateSetField(
-                                                    idx,
-                                                    setIdx,
-                                                    "weight",
-                                                    e.target.value
-                                                )
+                                        <WorkoutSetField
+                                            value={set.weight}
+                                            onChange={(value) =>
+                                                updateSetField(idx, setIdx, "weight", value)
                                             }
                                             style={{ width: "64px", textAlign: "center" }}
                                             placeholder="Weight"
@@ -1571,15 +1567,10 @@ function QuickStartEditorModal({ quickStart, onClose, onSave }) {
                                             <option value="kg">kg</option>
                                             <option value="lbs">lbs</option>
                                         </select>
-                                        <input
-                                            type="text"
-                                            value={
-                                                set.reps === undefined || set.reps === null
-                                                    ? ""
-                                                    : set.reps
-                                            }
-                                            onChange={(e) =>
-                                                updateSetField(idx, setIdx, "reps", e.target.value)
+                                        <WorkoutSetField
+                                            value={set.reps}
+                                            onChange={(value) =>
+                                                updateSetField(idx, setIdx, "reps", value)
                                             }
                                             style={{ width: "54px", textAlign: "center" }}
                                             placeholder="Reps"

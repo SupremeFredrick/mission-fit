@@ -1,5 +1,9 @@
 # Mission Fit
 
-Tracks food and workouts and gives recommendations based on personal fitness goals.
+Mission Fit is a React web app for tracking food and workouts and getting recommendations based on personal fitness goals.
 
-This repository was scaffolded from FitArc and converted to a JSX React app. Adjust UI and components as needed.
+## Development
+
+- `npm install` installs dependencies.
+- `npm run dev` starts the local web app.
+- `npm run build` creates the production web build.
